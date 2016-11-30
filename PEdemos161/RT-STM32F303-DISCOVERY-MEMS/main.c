@@ -17,8 +17,15 @@
 */
 
 /*
-    Tested under ChibiOS/RT 3.0.1, Project version 1.0
+    Tested under ChibiOS 16.1.4, Project version 1.1
+    
+    *** Change log 1.0 ***
+    * - Project created
+    *
+    *** Change log 1.1 ***
+    * - Ported to 16.1.4
  */
+ 
 #include "ch.h"
 #include "hal.h"
 
@@ -105,7 +112,9 @@ static char ftosign(float value) {
 #define SetAllLEDS()    palWriteGroup(GPIOE, 0xFF, 8, 0xFF)
 #define ToggleAllLEDS() palWriteGroup(GPIOE, 0xFF, 8, \
                         ~palReadGroup(GPIOE, 0xFF, 8))
+
 #define abs(x)  (x>0.0?x:-x)
+
 /*===========================================================================*/
 /* Main code                                                                 */
 /*===========================================================================*/
@@ -465,31 +474,18 @@ int main(void) {
   halInit();
   chSysInit();
 
-  /*
-   * Initializes a serial-over-USB CDC driver.
-   */
+  /* Initializes a serial-over-USB CDC driver. */
   sduObjectInit(&SDU1);
   sduStart(&SDU1, &serusbcfg);
 
-  /*
-   * Activates the USB driver and then the USB bus pull-up on D+.
-   * Note, a delay is inserted in order to not have to disconnect the cable
-   * after a reset.
-   */
-  usbDisconnectBus(serusbcfg.usbp);
-  chThdSleepMilliseconds(1500);
+  /* Activates the USB driver. */
   usbStart(serusbcfg.usbp, &usbcfg);
-  usbConnectBus(serusbcfg.usbp);
 
   chThdSleepMilliseconds(2000);
-  /*
-   * Creates the example threads.
-   */
+  /* Creates the example threads. */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO+1, Thread1, NULL);
 
-  /*
-   * Normal main() thread activity: button checking.
-   */
+  /* Normal main() thread activity: button checking. */
   while (true) {
     if(palReadPad(GPIOA, GPIOA_BUTTON) == PAL_HIGH){
       chThdSleepMilliseconds(50);
