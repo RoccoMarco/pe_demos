@@ -17,8 +17,15 @@
 */
 
 /*
-    Tested under ChibiOS/RT 3.0.1, Project version 1.0
+    Tested under ChibiOS 16.1.4, Project version 1.0
+    
+    *** Change log 1.0 ***
+    * - Project created
+    *
+    *** Change log 1.1 ***
+    * - Ported on 16.1.4
  */
+ 
 #include "ch.h"
 #include "hal.h"
 
@@ -64,7 +71,7 @@ int main(void){
   chSysInit();
   s3dlInit();
 
-  s3dl_sentences_init(4, "PLAY Embedded", "Officina Scuola", "ChibiCube", "playembedded.org");
+  s3dl_sentences_init(4, "PLAY Embedded", "chibios.org", "ChibiCube", "playembedded.org");
   /*
    * Activates the thread
    */
