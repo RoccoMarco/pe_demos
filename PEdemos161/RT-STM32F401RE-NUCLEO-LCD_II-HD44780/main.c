@@ -17,7 +17,10 @@
 */
 
 /*
-    Tested under ChibiOS/RT 3.0.1, Project version 1.0
+    Tested under ChibiOS/RT 16.1.4, Project version 1.1
+
+    * 1.1 Change-log
+    * - Fixed indent.
  */
 #include "ch.h"
 #include "hal.h"
@@ -29,8 +32,9 @@ static uint8_t ii;
 /*===========================================================================*/
 /* LCD configuration                                                         */
 /*===========================================================================*/
+
 static const PWMConfig pwmcfg = {
-  100000,                                   /* 100kHz PWM clock frequency.  */
+  100000,                                   /* 100kHz PWM clock frequency.   */
   100,                                      /* PWM period is 1000 cycles.    */
   NULL,
   {
@@ -43,12 +47,12 @@ static const PWMConfig pwmcfg = {
   0
 };
 
- static const LCDConfig lcdcfg = {
+static const LCDConfig lcdcfg = {
 
   {
-   {GPIOA, GPIOA_PIN4},                      /* RS Port and pin */
-   {GPIOA, GPIOA_PIN1},                      /* RW Port and pin */
-   {GPIOA, GPIOA_PIN0},                      /* E Port and pin */
+   {GPIOA, GPIOA_PIN4},                      /* RS Port and pin              */
+   {GPIOA, GPIOA_PIN1},                      /* RW Port and pin              */
+   {GPIOA, GPIOA_PIN0},                      /* E Port and pin               */
    {
     {GPIOC, GPIOC_PIN0},
     {GPIOC, GPIOC_PIN1},
@@ -57,17 +61,17 @@ static const PWMConfig pwmcfg = {
     {GPIOC, GPIOC_PIN4},
     {GPIOC, GPIOC_PIN5},
     {GPIOC, GPIOC_PIN6},
-    {GPIOC, GPIOC_PIN7} /* Data Ports and pins */
+    {GPIOC, GPIOC_PIN7}                      /* Data Ports and pins          */
    },
-   {GPIOA, GPIOA_PIN8},                      /* A Port and pin */
+   {GPIOA, GPIOA_PIN8},                      /* A Port and pin               */
   },
   HD44780_EMS_Inc,
   HD44780_DC_DisplayOn | HD44780_DC_CursorOff | HD44780_DC_BlinkingOff,
   HD44780_Set_Font5x10Dots | HD44780_Set_2Lines | HD44780_Set_DataLenght8bit,
-  &PWMD1,                                    /* PWM Driver for back-light */
-  &pwmcfg,                                   /* PWM driver configuration for back-light */
-  0,                                         /* PWM channel */
-  100,                                       /* Back-light */
+  &PWMD1,                                    /* PWM Driver for back-light    */
+  &pwmcfg,                                   /* PWM Driver configuration     */
+  0,                                         /* PWM channel                  */
+  100,                                       /* Back-light                   */
 };
 
 /*
