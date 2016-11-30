@@ -32,6 +32,7 @@
  */
 
 #include "lcd.h"
+
 #if USERLIB_USE_LCD || defined(__DOXYGEN__)
 
 /*===========================================================================*/
@@ -62,19 +63,19 @@ LCDDriver LCDD1;
 /**
  * @brief   Sets pin for write
  *
- * @param[in] pins          HD44780 pins structure
- * @param[in] sets           HD44780 sets field
+ * @param[in] pins HD44780 pins structure
+ * @param[in] sets         HD44780 sets field
  */
 static void hd44780SetForWrite(HD44780_pins_t pins, HD44780_Set_t sets){
   unsigned ii;
   if(sets & HD44780_Set_DataLenght8bit)
     for(ii = 0; ii < 8; ii++)
-      if(pins.Data[ii].port != NULL)
-        palSetPadMode(pins.Data[ii].port, pins.Data[ii].pad,
+      if(pins.Data[ii] != 0)
+        palSetLineMode(pins.Data[ii],
                       PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);
   else
     for(ii = 4; ii < 8; ii++)
-      palSetPadMode(pins.Data[ii].port, pins.Data[ii].pad,
+      palSetLineMode(pins.Data[ii],
                     PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);
 
 }
@@ -91,50 +92,47 @@ static void hd44780WriteRegister(HD44780_pins_t pins, HD44780_Set_t sets,
                                  uint8_t reg, uint8_t value){
 
   unsigned ii;
-  palWritePad(pins.RW.port, pins.RW.pad, PAL_LOW);
+  palClearLine(pins.RW);
   if(reg == LCD_INSTRUCTION_R){
-    palWritePad(pins.RS.port, pins.RS.pad, PAL_LOW);
+    palClearLine(pins.RS);
   }
   else{
-    palWritePad(pins.RS.port, pins.RS.pad, PAL_HIGH);
+    palSetLine(pins.RS);
   }
   hd44780SetForWrite(pins, sets);
 
   if(sets & HD44780_Set_DataLenght8bit){
-
     for(ii = 0; ii < 8; ii++){
-      if(pins.Data[ii].port != NULL){
         if(value & (1 << ii))
-          palSetPad(pins.Data[ii].port, pins.Data[ii ].pad);
+          palSetLine(pins.Data[ii]);
         else
-          palClearPad(pins.Data[ii].port, pins.Data[ii].pad);
-      }
+          palClearLine(pins.Data[ii]);
     }
-    palWritePad(pins.E.port, pins.E.pad, PAL_HIGH);
+    palSetLine(pins.E);
     osalThreadSleepMilliseconds(1);
-    palWritePad(pins.E.port, pins.E.pad, PAL_LOW);
+    palClearLine(pins.E);
     osalThreadSleepMilliseconds(1);
   }
   else{
     for(ii = 0; ii < 4; ii++){
       if(value & (1 << (ii + 4)))
-        palSetPad(pins.Data[(ii + 4)].port, pins.Data[(ii + 4)].pad);
+        palSetLine(pins.Data[ii + 4]);
       else
-        palClearPad(pins.Data[(ii + 4)].port, pins.Data[(ii + 4)].pad);
+        palClearLine(pins.Data[ii + 4]);
     }
-    palWritePad(pins.E.port, pins.E.pad, PAL_HIGH);
+    palSetLine(pins.E);
     osalThreadSleepMilliseconds(1);
-    palWritePad(pins.E.port, pins.E.pad, PAL_LOW);
+    palClearLine(pins.E);
     osalThreadSleepMilliseconds(1);
     for(ii = 0; ii < 4; ii++){
-      if(value & (1 << ii))
-        palSetPad(pins.Data[(ii + 4)].port, pins.Data[(ii + 4)].pad);
+      if(value & (1 << (ii + 4)))
+        palSetLine(pins.Data[ii + 4]);
       else
-        palClearPad(pins.Data[(ii + 4)].port, pins.Data[(ii + 4)].pad);
+        palClearLine(pins.Data[ii + 4]);
     }
-    palWritePad(pins.E.port, pins.E.pad, PAL_HIGH);
+    palSetLine(pins.E);
     osalThreadSleepMilliseconds(1);
-    palWritePad(pins.E.port, pins.E.pad, PAL_LOW);
+    palClearLine(pins.E);
     osalThreadSleepMilliseconds(1);
   }
 }

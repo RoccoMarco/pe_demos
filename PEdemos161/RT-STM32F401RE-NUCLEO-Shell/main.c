@@ -14,6 +14,13 @@
     limitations under the License.
 */
 
+/*
+    Tested under ChibiOS 16.1.4, Project version 1.0
+    
+    *** Change log 1.0 ***
+    * - Project created
+ */
+ 
 #include "ch.h"
 #include "hal.h"
 

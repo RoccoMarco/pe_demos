@@ -23,6 +23,7 @@
     * - Removed unused folder.
     * - Updated device-lib link
  */
+
 #include "ch.h"
 #include "hal.h"
 #include "chprintf.h"

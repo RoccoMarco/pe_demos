@@ -16,6 +16,13 @@
     limitations under the License.
 */
 
+/*
+    Tested under ChibiOS 16.1.4, Project version 1.1
+
+    * 1.1 Change-log
+    * - Removed unused folder.
+    * - Updated device-lib link
+ */
 #include "ch.h"
 #include "hal.h"
 

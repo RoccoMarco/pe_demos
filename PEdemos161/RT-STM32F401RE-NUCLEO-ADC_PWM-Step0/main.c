@@ -17,8 +17,12 @@
 */
 
 /*
-    Tested under ChibiOS/RT 3.0.1, Project version 1.0
+    Tested under ChibiOS 16.1.4, Project version 1.0
+    
+    *** Change log 1.0 ***
+    * - Project created
  */
+ 
 #include "ch.h"
 #include "hal.h"
 #include "chprintf.h"
@@ -31,6 +35,7 @@ static float lastvalue;
 /*===========================================================================*/
 /* ADC related code                                                          */
 /*===========================================================================*/
+
 /*
  * In this demo we want to use a single channel to sample voltage across
  * the potentiometer.

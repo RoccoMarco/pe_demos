@@ -17,17 +17,35 @@
 */
 
 /*
-    Tested under ChibiOS/RT 16.1.4, Project version 1.1
-
-    * 1.1 Change-log
-    * - Fixed indent.
+    Tested under ChibiOS 16.1.4, Project version 1.1
+    
+    *** Change log 1.0 ***
+    * - Project created
+    *
+    *** Change log 1.1 ***
+    * - Replaced Port and Pad with line
+    * - Minor fix indent
  */
+
 #include "ch.h"
 #include "hal.h"
 
 #include "lcd.h"
 
 static uint8_t ii;
+
+#define LINE_RS                     PAL_LINE(GPIOA, 4U)
+#define LINE_RW                     PAL_LINE(GPIOA, 1U)
+#define LINE_E                      PAL_LINE(GPIOA, 0U)
+#define LINE_D0                     PAL_LINE(GPIOC, 0U)
+#define LINE_D1                     PAL_LINE(GPIOC, 1U)
+#define LINE_D2                     PAL_LINE(GPIOC, 2U)
+#define LINE_D3                     PAL_LINE(GPIOC, 3U)
+#define LINE_D4                     PAL_LINE(GPIOC, 4U)
+#define LINE_D5                     PAL_LINE(GPIOC, 5U)
+#define LINE_D6                     PAL_LINE(GPIOC, 6U)
+#define LINE_D7                     PAL_LINE(GPIOC, 7U)
+#define LINE_A                      PAL_LINE(GPIOA, 8U)
 
 /*===========================================================================*/
 /* LCD configuration                                                         */
@@ -48,30 +66,29 @@ static const PWMConfig pwmcfg = {
 };
 
 static const LCDConfig lcdcfg = {
-
   {
-   {GPIOA, GPIOA_PIN4},                      /* RS Port and pin              */
-   {GPIOA, GPIOA_PIN1},                      /* RW Port and pin              */
-   {GPIOA, GPIOA_PIN0},                      /* E Port and pin               */
+   LINE_RS,
+   LINE_RW,
+   LINE_E,
    {
-    {GPIOC, GPIOC_PIN0},
-    {GPIOC, GPIOC_PIN1},
-    {GPIOC, GPIOC_PIN2},
-    {GPIOC, GPIOC_PIN3},
-    {GPIOC, GPIOC_PIN4},
-    {GPIOC, GPIOC_PIN5},
-    {GPIOC, GPIOC_PIN6},
-    {GPIOC, GPIOC_PIN7}                      /* Data Ports and pins          */
+    LINE_D0,
+    LINE_D1,
+    LINE_D2,
+    LINE_D3,
+    LINE_D4,
+    LINE_D5,
+    LINE_D6,
+    LINE_D7
    },
-   {GPIOA, GPIOA_PIN8},                      /* A Port and pin               */
+   LINE_A
   },
   HD44780_EMS_Inc,
-  HD44780_DC_DisplayOn | HD44780_DC_CursorOff | HD44780_DC_BlinkingOff,
-  HD44780_Set_Font5x10Dots | HD44780_Set_2Lines | HD44780_Set_DataLenght8bit,
-  &PWMD1,                                    /* PWM Driver for back-light    */
-  &pwmcfg,                                   /* PWM Driver configuration     */
-  0,                                         /* PWM channel                  */
-  100,                                       /* Back-light                   */
+  HD44780_DC_DisplayOn | HD44780_DC_CursorOn | HD44780_DC_BlinkingOff,
+  HD44780_Set_Font5x10Dots | HD44780_Set_2Lines | HD44780_Set_DataLenght4bit,
+  &PWMD1,                                    /* PWM Driver for back-light */
+  &pwmcfg,                                   /* PWM driver configuration for back-light */
+  0,                                         /* PWM channel */
+  100,                                       /* Back-light */
 };
 
 /*
@@ -132,6 +149,7 @@ int main(void) {
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
   chThdCreateStatic(waThread2, sizeof(waThread2), NORMALPRIO, Thread2, NULL);
+
   /*
    * Setting RS, RW, E and A pin mode. Data pin are set internally since they
    * could be used as input or output.

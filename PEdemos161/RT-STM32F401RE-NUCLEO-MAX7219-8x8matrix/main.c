@@ -18,8 +18,11 @@
 
 /*
     Tested under ChibiOS 16.1.4, Project version 1.1
+    
+    *** Change log 1.0 ***
+    * - Project created
 
-    * 1.1 Change-log
+    *** Change log 1.1 ***
     * - Removed unused folder.
     * - Updated device-lib link
  */
