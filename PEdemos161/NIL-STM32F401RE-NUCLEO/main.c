@@ -17,36 +17,41 @@
 */
 
 /*
-    Tested under ChibiOS/NIL 1.0, Project version 1.0
+    Tested under ChibiOS 16.1.4, Project version 1.1
+
+    *** Change log 1.0 ***
+    * - Project created
+
+    *** Change log 1.1 ***
+    * - Tested under 16.1.4
+    * - Updated comments
  */
+
 #include "hal.h"
 #include "nil.h"
 
-/*
- * Green LED blinker thread, times are in milliseconds.
- */
+/* Green LED blinker thread, times are in milliseconds. */
 static THD_WORKING_AREA(waThread1, 256);
 static THD_FUNCTION(Thread1, arg) {
 
   (void)arg;
+
   while (true) {
-    palSetPad(GPIOA, GPIOA_LED_GREEN);
-    chThdSleepMilliseconds(500);
-    palClearPad(GPIOA, GPIOA_LED_GREEN);
+    palToggleLine(LINE_LED_GREEN);
     chThdSleepMilliseconds(500);
   }
 }
 
-/*
- * Green LED blinker thread, times are in milliseconds.
- */
+/* Hello world thread */
 static THD_WORKING_AREA(waThread2, 256);
 static THD_FUNCTION(Thread2, arg) {
 
   (void)arg;
-  sdStart(&SD2, NULL);
-  while (true) {
 
+  /* Start Serial Driver 2 with default configuration */
+  sdStart(&SD2, NULL);
+
+  while (true) {
     chnWrite(&SD2, (const uint8_t *)"Hello World!\r\n", 14);
     chThdSleepMilliseconds(500);
   }
@@ -78,9 +83,7 @@ int main(void) {
   chSysInit();
 
 /* This is now the idle thread loop, you may perform here a low priority
-   task but you must never try to sleep or wait in this loop. Note that
-   this tasks runs at the lowest priority level so any instruction added
-   here will be executed after all other tasks have been started.*/
+   task but sleeps are not allowed */
   while (true) {
   }
 }
