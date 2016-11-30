@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RT-STM32F401C-DISCOVERY</name>
+	<name>RT-STM32F401C-DISCOVERY-MEMS</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -84,7 +84,7 @@
 		<link>
 			<name>devices_lib</name>
 			<type>2</type>
-			<location>C:/ChibiStudio/chibios3/community/os/various/devices_lib</location>
+			<locationURI>CHIBIOS/community/os/various/devices_lib</locationURI>
 		</link>
 		<link>
 			<name>os</name>
