@@ -83,8 +83,8 @@ static const LCDConfig lcdcfg = {
    LINE_A
   },
   HD44780_EMS_Inc,
-  HD44780_DC_DisplayOn | HD44780_DC_CursorOn | HD44780_DC_BlinkingOff,
-  HD44780_Set_Font5x10Dots | HD44780_Set_2Lines | HD44780_Set_DataLenght4bit,
+  HD44780_DC_DisplayOn | HD44780_DC_CursorOff | HD44780_DC_BlinkingOff,
+  HD44780_Set_Font5x10Dots | HD44780_Set_2Lines | HD44780_Set_DataLenght8bit,
   &PWMD1,                                    /* PWM Driver for back-light */
   &pwmcfg,                                   /* PWM driver configuration for back-light */
   0,                                         /* PWM channel */

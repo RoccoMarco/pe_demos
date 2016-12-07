@@ -125,7 +125,7 @@ static void hd44780WriteRegister(HD44780_pins_t pins, HD44780_Set_t sets,
     palClearLine(pins.E);
     osalThreadSleepMilliseconds(1);
     for(ii = 0; ii < 4; ii++){
-      if(value & (1 << (ii + 4)))
+      if(value & (1 << ii))
         palSetLine(pins.Data[ii + 4]);
       else
         palClearLine(pins.Data[ii + 4]);
