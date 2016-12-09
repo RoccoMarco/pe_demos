@@ -43,33 +43,16 @@
 /* Driver constants.                                                         */
 /*===========================================================================*/
 
-/**
- * @brief   HD44780 registers
- */
-#define   LCD_INSTRUCTION_R             0x00
-#define   LCD_DATA_R                    0x01
-
-/**
- * @brief   HD44780 max diplay data RAM address
- */
-#define   LCD_DDRAM_MAX_ADDRESS         0X4F
-
-/**
- * @brief   HD44780 other bit masks
- */
-#define   LCD_SET_CGRAM_ADDRESS         1 << 6
-#define   LCD_SET_DDRAM_ADDRESS         1 << 7
-#define   LCD_BUSY_FLAG                 1 << 7
 
 /**
  * @brief   Generic definition of right direction
  */
-#define   LCD_RIGHT                     TRUE
+#define   LCD_RIGHT                     0x04
 
 /**
  * @brief   Generic definition of left direction
  */
-#define    LCD_LEFT                     FALSE
+#define   LCD_LEFT                      0x00
 
 /*===========================================================================*/
 /* Driver pre-compile time settings.                                         */
@@ -78,17 +61,34 @@
 /**
  * @brief   Enables back-light APIs.
  *
- * @note    The default is @p TRUE.
  * @note    Enabling this option LCD requires a PWM driver.
- *
+ * @note    The default is @p TRUE.
  */
 #if !defined(LCD_USE_BACKLIGHT) || defined(__DOXYGEN__)
 #define LCD_USE_BACKLIGHT               TRUE
 #endif
 
+/**
+ * @brief   Enables 4 BIT mode.
+ *
+ * @note    Enabling this option LCD uses only D4 to D7 pins
+ * @note    The default is @p FALSE.
+ */
+#if !defined(LCD_USE_4_BIT_MODE) || defined(__DOXYGEN__)
+#define LCD_USE_4_BIT_MODE              FALSE
+#endif
+
 /*===========================================================================*/
 /* Derived constants and error checks.                                       */
 /*===========================================================================*/
+
+#if LCD_USE_4_BIT_MODE
+#define LINE_DATA_LEN                   4
+#define LCD_DATA_LENGHT                 0x00
+#else
+#define LINE_DATA_LEN                   8
+#define LCD_DATA_LENGHT                 0x10
+#endif
 
 #if LCD_USE_BACKLIGHT && !HAL_USE_PWM
 #error "LCD_USE_BACKLIGHT  requires HAL_USE_PWM"
@@ -99,11 +99,12 @@
 /*===========================================================================*/
 
 /**
- * @name    HD44780 data structures and types
+ * @name    lcd data structures and types
  * @{ */
 
 /**
- * @brief   HD44780 PIN-map;
+ * @brief   lcd PIN-map.
+ * @note    these PINs are required by write/read operation.
  */
 typedef struct {
   /**
@@ -119,71 +120,46 @@ typedef struct {
    */
   ioline_t E;
   /**
-   * @brief  Data PINs
-   * @note   In four line mode PINs from D0 to D3 are ignored.
-   */
-  ioline_t Data[8];
-  /**
    * @brief  Back-light anode pin
    */
   ioline_t A;
-} HD44780_pins_t;
+  /**
+   * @brief  Data PINs
+   */
+  ioline_t D[LINE_DATA_LEN];
+} lcd_pins_t;
 
 /**
- * @brief  LCD commands
+ * @brief  LCD cursor control
  */
 typedef enum {
-  HD44780_CMD_Clear = 0x01,
-  HD44780_CMD_Return = 0x02,
-} HD44780_CMD_t;
+  LCD_CURSOR_OFF = 0x00,
+  LCD_CURSOR_ON = 0x02,
+} lcd_cursor_t;
 
 /**
- * @brief  LCD entry mode set
+ * @brief  LCD blinking control
  */
 typedef enum {
-  HD44780_EMS = 0x04,
-  HD44780_EMS_Dec = 0x00,
-  HD44780_EMS_DecAndShift = 0x01,
-  HD44780_EMS_Inc = 0x02,
-  HD44780_EMS_IncAndShift = 0x03,
-} HD44780_EMS_t;
-
-/**
- * @brief  LCD display control
- */
-typedef enum {
-  HD44780_DC = 0x08,
-  HD44780_DC_DisplayOff = 0x00,
-  HD44780_DC_DisplayOn = 0x04,
-  HD44780_DC_CursorOff = 0x00,
-  HD44780_DC_CursorOn = 0x02,
-  HD44780_DC_BlinkingOff = 0x00,
-  HD44780_DC_BlinkingOn = 0x01,
-} HD44780_DC_t;
-
-/**
- * @brief  LCD display cursor or display shift
- */
-typedef enum {
-  HD44780_CODS = 0x10,
-  HD44780_CODS_CursorLeft = 0x00,
-  HD44780_CODS_CursorRight = 0x04,
-  HD44780_CODS_ShiftLeft = 0x08,
-  HD44780_CODS_ShiftRight = 0x0C,
-} HD44780_CODS_t;
+  LCD_BLINKING_OFF = 0x00,
+  LCD_BLINKING_ON = 0x01,
+} lcd_blinking_t;
 
 /**
  * @brief  LCD display settings
  */
 typedef enum {
-  HD44780_Set = 0x20,
-  HD44780_Set_Font5x8Dots = 0x00,
-  HD44780_Set_Font5x10Dots = 0x04,
-  HD44780_Set_1Line = 0x00,
-  HD44780_Set_2Lines = 0x08,
-  HD44780_Set_DataLenght4bit = 0x00,
-  HD44780_Set_DataLenght8bit = 0x10,
-} HD44780_Set_t;
+  LCD_SET_FONT_5X8 = 0x00,
+  LCD_SET_FONT_5X10 = 0x04
+} lcd_set_font_t;
+
+/**
+ * @brief  LCD display settings
+ */
+typedef enum {
+  LCD_SET_1LINE = 0x00,
+  LCD_SET_2LINES = 0x08
+} lcd_set_lines_t;
 /** @}  */
 
 /**
@@ -200,21 +176,27 @@ typedef enum {
  */
 typedef struct {
   /**
-   * @brief  Pin map
+   * @brief  LCD cursor control
    */
-  HD44780_pins_t pins;
+  lcd_cursor_t cursor;
   /**
-   * @brief  LCD entry mode set
+   * @brief  LCD blinking control
    */
-  HD44780_EMS_t entry_mode_set;
-  /**
-   * @brief  LCD display control
-   */
-  HD44780_DC_t display_control;
+  lcd_blinking_t blinking;
+
   /**
    * @brief  LCD display settings
    */
-  HD44780_Set_t settings;
+  lcd_set_font_t font;
+
+  /**
+   * @brief  LCD display settings
+   */
+  lcd_set_lines_t lines;
+  /**
+   * @brief  LCD PIN-map
+   */
+  lcd_pins_t const *pinmap;
 #if LCD_USE_BACKLIGHT
   /**
    * @brief  PWM driver for back-light managing
@@ -279,7 +261,7 @@ extern "C" {
   void lcdReturnHome(LCDDriver *lcdp);
   void lcdSetAddress(LCDDriver *lcdp, uint8_t add);
   void lcdWriteString(LCDDriver *lcdp, char* string, uint8_t pos);
-  void lcdDoDisplayShift(LCDDriver *lcdp, bool dir);
+  void lcdDoDisplayShift(LCDDriver *lcdp, uint8_t dir);
 #if LCD_USE_BACKLIGHT
   void lcdSetBacklight(LCDDriver *lcdp, uint32_t perc);
   void lcdBacklightFadeOut(LCDDriver *lcdp);

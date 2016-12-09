@@ -39,6 +39,42 @@
 /* Driver local definitions.                                                 */
 /*===========================================================================*/
 
+
+/* LCD REGISTERS */
+#define LCD_INSTRUCTION_R               PAL_LOW
+#define LCD_DATA_R                      PAL_HIGH
+
+/* LCD_INSTRUCTIONS */
+#define LCD_CLEAR_DISPLAY               0x01
+
+#define LCD_RETURN_HOME                 0x02
+
+#define LCD_EMS                         0x04
+#define LCD_EMS_S                       0x01
+#define LCD_EMS_ID                      0x02
+
+#define LCD_DC                          0x08
+#define LCD_DC_B                        0x01
+#define LCD_DC_C                        0x02
+#define LCD_DC_D                        0x04
+
+#define LCD_CDS                         0x10
+#define LCD_CDS_RL                      0x04
+#define LCD_CDS_SC                      0x08
+
+#define LCD_FS                          0x20
+#define LCD_FS_F                        0x04
+#define LCD_FS_N                        0x08
+#define LCD_FS_DL                       0x10
+
+#define LCD_SET_CGRAM_ADDRESS           0x40
+#define LCD_SET_CGRAM_ADDRESS_MASK      0X3F
+
+#define LCD_SET_DDRAM_ADDRESS           0x80
+#define LCD_SET_DDRAM_ADDRESS_MASK      0X7F
+
+#define LCD_BUSY_FLAG                   0X80
+
 /*===========================================================================*/
 /* Driver exported variables.                                                */
 /*===========================================================================*/
@@ -61,80 +97,164 @@ LCDDriver LCDD1;
 /*===========================================================================*/
 
 /**
- * @brief   Sets pin for write
+ * @brief   Get the busy flag
  *
- * @param[in] pins HD44780 pins structure
- * @param[in] sets         HD44780 sets field
+ * @param[in] lcdp          LCD driver
+ *
+ * @return                  The LCD status.
+ * @retval TRUE             if the LCD is busy on internal operation.
+ * @retval FALSE            if the LCD is in idle.
+ *
+ * @notapi
  */
-static void hd44780SetForWrite(HD44780_pins_t pins, HD44780_Set_t sets){
+static bool hd44780IsBusy(LCDDriver *lcdp) {
+  bool busy;
   unsigned ii;
-  if(sets & HD44780_Set_DataLenght8bit)
-    for(ii = 0; ii < 8; ii++)
-      if(pins.Data[ii] != 0)
-        palSetLineMode(pins.Data[ii],
-                      PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);
-  else
-    for(ii = 4; ii < 8; ii++)
-      palSetLineMode(pins.Data[ii],
-                    PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST);
 
+  /* Configuring Data PINs as Input. */
+  for(ii = 0; ii < LINE_DATA_LEN; ii++)
+    palSetLineMode(lcdp->config->pinmap->D[ii], PAL_MODE_INPUT);
+
+  palSetLine(lcdp->config->pinmap->RW);
+  palClearLine(lcdp->config->pinmap->RS);
+
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  busy = (palReadLine(lcdp->config->pinmap->D[LINE_DATA_LEN - 1]) == PAL_HIGH);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+
+#if LCD_USE_4_BIT_MODE
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+#endif
+  return busy;
 }
 
 /**
  * @brief   Write a data into a register for the lcd
  *
- * @param[in] pins          HD44780 pins structure
- * @param[in] sets          HD44780 sets field
+ * @param[in] lcdp          LCD driver
  * @param[in] reg           Register id
  * @param[in] value         Writing value
+ *
+ * @notapi
  */
-static void hd44780WriteRegister(HD44780_pins_t pins, HD44780_Set_t sets,
-                                 uint8_t reg, uint8_t value){
+static void hd44780WriteRegister(LCDDriver *lcdp, uint8_t reg, uint8_t value){
 
   unsigned ii;
-  palClearLine(pins.RW);
-  if(reg == LCD_INSTRUCTION_R){
-    palClearLine(pins.RS);
-  }
-  else{
-    palSetLine(pins.RS);
-  }
-  hd44780SetForWrite(pins, sets);
 
-  if(sets & HD44780_Set_DataLenght8bit){
-    for(ii = 0; ii < 8; ii++){
-        if(value & (1 << ii))
-          palSetLine(pins.Data[ii]);
-        else
-          palClearLine(pins.Data[ii]);
-    }
-    palSetLine(pins.E);
-    osalThreadSleepMilliseconds(1);
-    palClearLine(pins.E);
-    osalThreadSleepMilliseconds(1);
+  while (hd44780IsBusy(lcdp))
+    ;
+
+  /* Configuring Data PINs as Output Push Pull. */
+  for(ii = 0; ii < LINE_DATA_LEN; ii++)
+    palSetLineMode(lcdp->config->pinmap->D[ii], PAL_MODE_OUTPUT_PUSHPULL |
+                   PAL_STM32_OSPEED_HIGHEST);
+
+  palClearLine(lcdp->config->pinmap->RW);
+  palWriteLine(lcdp->config->pinmap->RS, reg);
+
+#if LCD_USE_4_BIT_MODE
+  for(ii = 0; ii < LINE_DATA_LEN; ii++) {
+    if(value & (1 << (ii + 4)))
+      palSetLine(lcdp->config->pinmap->D[ii]);
+    else
+      palClearLine(lcdp->config->pinmap->D[ii]);
   }
-  else{
-    for(ii = 0; ii < 4; ii++){
-      if(value & (1 << (ii + 4)))
-        palSetLine(pins.Data[ii + 4]);
-      else
-        palClearLine(pins.Data[ii + 4]);
-    }
-    palSetLine(pins.E);
-    osalThreadSleepMilliseconds(1);
-    palClearLine(pins.E);
-    osalThreadSleepMilliseconds(1);
-    for(ii = 0; ii < 4; ii++){
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+
+  for(ii = 0; ii < LINE_DATA_LEN; ii++) {
+    if(value & (1 << ii))
+      palSetLine(lcdp->config->pinmap->D[ii]);
+    else
+      palClearLine(lcdp->config->pinmap->D[ii]);
+  }
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+#else
+  for(ii = 0; ii < LINE_DATA_LEN; ii++){
       if(value & (1 << ii))
-        palSetLine(pins.Data[ii + 4]);
+        palSetLine(lcdp->config->pinmap->D[ii]);
       else
-        palClearLine(pins.Data[ii + 4]);
-    }
-    palSetLine(pins.E);
-    osalThreadSleepMilliseconds(1);
-    palClearLine(pins.E);
-    osalThreadSleepMilliseconds(1);
+        palClearLine(lcdp->config->pinmap->D[ii]);
   }
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+#endif
+}
+
+/**
+ * @brief   Perform a initialization by instruction as explained in HD44780
+ *          datasheet.
+ * @note    This reset is required after a mis-configuration or if there aren't
+ *          condition to enable internal reset circuit.
+ *
+ * @param[in] lcdp          LCD driver
+ *
+ * @notapi
+ */
+static void hd44780InitByIstructions(LCDDriver *lcdp) {
+  unsigned ii;
+
+  osalThreadSleepMilliseconds(50);
+  for(ii = 0; ii < LINE_DATA_LEN; ii++) {
+    palSetLineMode(lcdp->config->pinmap->D[ii], PAL_MODE_OUTPUT_PUSHPULL |
+                   PAL_STM32_OSPEED_HIGHEST);
+    palClearLine(lcdp->config->pinmap->D[ii]);
+  }
+
+  palClearLine(lcdp->config->pinmap->E);
+  palClearLine(lcdp->config->pinmap->RW);
+  palClearLine(lcdp->config->pinmap->RS);
+  palSetLine(lcdp->config->pinmap->D[LINE_DATA_LEN - 3]);
+  palSetLine(lcdp->config->pinmap->D[LINE_DATA_LEN - 4]);
+
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(5);
+
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+
+#if LCD_USE_4_BIT_MODE
+  palSetLine(lcdp->config->pinmap->D[LINE_DATA_LEN - 3]);
+  palClearLine(lcdp->config->pinmap->D[LINE_DATA_LEN - 4]);
+  palSetLine(lcdp->config->pinmap->E);
+  osalThreadSleepMilliseconds(1);
+  palClearLine(lcdp->config->pinmap->E);
+#endif
+
+  /* Configuring data interface */
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_FS | LCD_DATA_LENGHT |
+                       lcdp->config->font | lcdp->config->lines);
+
+  /* Turning off display and clearing */
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_DC);
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_CLEAR_DISPLAY);
+
+  /* Setting display control turning on display */
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_DC | LCD_DC_D |
+                       lcdp->config->cursor | lcdp->config->blinking);
+
+  /* Setting Entry Mode */
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_EMS | LCD_EMS_ID);
 }
 
 /*===========================================================================*/
@@ -182,7 +302,13 @@ void lcdStart(LCDDriver *lcdp, const LCDConfig *config) {
 
   osalDbgAssert((lcdp->state == LCD_STOP) || (lcdp->state == LCD_ACTIVE),
               "lcdStart(), invalid state");
+
   lcdp->config = config;
+  lcdp->backlight = lcdp->config->backlight;
+
+  /* Initializing HD44780 by instructions. */
+  hd44780InitByIstructions(lcdp);
+
 #if LCD_USE_BACKLIGHT
   pwmStart(lcdp->config->pwmp, lcdp->config->pwmcfgp);
   pwmEnableChannel(lcdp->config->pwmp, lcdp->config->channelid,
@@ -190,39 +316,10 @@ void lcdStart(LCDDriver *lcdp, const LCDConfig *config) {
                                            lcdp->config->backlight * 100));
 
 #else
-  palWritePad(lcdp->config->pins.A.port, lcdp->config->pins.A.pad,
+  palWriteLine(lcdp->config->pinmap->A,
               lcdp->config->backlight ? PAL_HIGH : PAL_LOW);
 #endif
-  lcdp->backlight = lcdp->config->backlight;
-  hd44780WriteRegister(lcdp->config->pins, HD44780_Set_DataLenght8bit,
-                       LCD_INSTRUCTION_R,
-                       HD44780_Set | HD44780_Set_DataLenght8bit);
-  osalThreadSleepMilliseconds(5);
-  hd44780WriteRegister(lcdp->config->pins, HD44780_Set_DataLenght8bit,
-                       LCD_INSTRUCTION_R,
-                       HD44780_Set | HD44780_Set_DataLenght8bit);
-  osalThreadSleepMilliseconds(1);
-  hd44780WriteRegister(lcdp->config->pins, HD44780_Set_DataLenght8bit,
-                       LCD_INSTRUCTION_R,
-                       HD44780_Set | HD44780_Set_DataLenght8bit);
-  if(!(lcdp->config->settings & HD44780_Set_DataLenght8bit)){
-    hd44780WriteRegister(lcdp->config->pins, HD44780_Set_DataLenght8bit,
-                         LCD_INSTRUCTION_R,
-                         HD44780_Set | HD44780_Set_DataLenght4bit);
-  }
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R,
-                       HD44780_Set | lcdp->config->settings);
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R, HD44780_DC);
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R, HD44780_CMD_Clear);
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R,
-                       HD44780_EMS | lcdp->config->entry_mode_set);
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R,
-                       HD44780_DC | lcdp->config->display_control);
+
   lcdp->state = LCD_ACTIVE;
 }
 
@@ -242,14 +339,11 @@ void lcdStop(LCDDriver *lcdp) {
 #if LCD_USE_BACKLIGHT
   pwmStop(lcdp->config->pwmp);
 #else
-  palWritePad(lcdp->config->pins.A.port, lcdp->config->pins.A.pad, PAL_LOW);
+  palClearLine(lcdp->config->pinmap->A);
 #endif
   lcdp->backlight = 0;
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R, HD44780_CMD_Clear);
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R,
-                       HD44780_DC | HD44780_DC_DisplayOff);
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_DC);
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_CLEAR_DISPLAY);
   lcdp->state = LCD_STOP;
 }
 
@@ -269,7 +363,7 @@ void lcdBacklightOn(LCDDriver *lcdp) {
                    PWM_PERCENTAGE_TO_WIDTH(lcdp->config->pwmp, 10000));
 
 #else
-  palWritePad(lcdp->config->pins.A.port, lcdp->config->pins.A.pad, PAL_HIGH);
+  palSetLine(lcdp->config->pinmap->A);
 #endif
   lcdp->backlight = 100;
 }
@@ -289,7 +383,7 @@ void lcdBacklightOff(LCDDriver *lcdp) {
   pwmDisableChannel(lcdp->config->pwmp, lcdp->config->channelid);
 
 #else
-  palWritePad(lcdp->config->pins.A.port, lcdp->config->pins.A.pad, PAL_LOW);
+  palClearLine(lcdp->config->pinmap->A);
 #endif
   lcdp->backlight = 0;
 }
@@ -305,7 +399,7 @@ void lcdClearDisplay(LCDDriver *lcdp){
 
   osalDbgCheck(lcdp != NULL);
   osalDbgAssert((lcdp->state == LCD_ACTIVE), "lcdClearDisplay(), invalid state");
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings, LCD_INSTRUCTION_R, HD44780_CMD_Clear);
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_CLEAR_DISPLAY);
 }
 
 /**
@@ -319,7 +413,7 @@ void lcdReturnHome(LCDDriver *lcdp){
 
   osalDbgCheck(lcdp != NULL);
   osalDbgAssert((lcdp->state == LCD_ACTIVE), "lcdReturnHome(), invalid state");
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings, LCD_INSTRUCTION_R, HD44780_CMD_Return);
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_RETURN_HOME);
 }
 
 /**
@@ -335,10 +429,9 @@ void lcdSetAddress(LCDDriver *lcdp, uint8_t add){
   osalDbgCheck(lcdp != NULL);
   osalDbgAssert((lcdp->state == LCD_ACTIVE),
                 "lcdSetAddress(), invalid state");
-  if(add > LCD_DDRAM_MAX_ADDRESS)
+  if(add > LCD_SET_DDRAM_ADDRESS_MASK)
     return;
-  hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                       LCD_INSTRUCTION_R, LCD_SET_DDRAM_ADDRESS | add);
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_SET_DDRAM_ADDRESS | add);
 }
 
 /**
@@ -358,12 +451,11 @@ void lcdWriteString(LCDDriver *lcdp, char* string, uint8_t pos){
   osalDbgAssert((lcdp->state == LCD_ACTIVE),
                 "lcdWriteString(), invalid state");
 
-  iteration = LCD_DDRAM_MAX_ADDRESS - pos + 1;
+  iteration = LCD_SET_DDRAM_ADDRESS_MASK - pos + 1;
   if(iteration > 0){
     lcdSetAddress(lcdp, pos);
     while((*string != '\0') && (iteration > 0)){
-      hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings,
-                           LCD_DATA_R, *string);
+      hd44780WriteRegister(lcdp, LCD_DATA_R, *string);
       string++;
       iteration--;
     }
@@ -380,19 +472,12 @@ void lcdWriteString(LCDDriver *lcdp, char* string, uint8_t pos){
  *
  * @api
  */
-void lcdDoDisplayShift(LCDDriver *lcdp, bool dir){
+void lcdDoDisplayShift(LCDDriver *lcdp, uint8_t dir){
 
   osalDbgCheck(lcdp != NULL);
   osalDbgAssert((lcdp->state == LCD_ACTIVE),
                 "lcdDoDisplayShift(), invalid state");
-  if(dir == LCD_RIGHT){
-    hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings, LCD_INSTRUCTION_R,
-                         HD44780_CODS | HD44780_CODS_ShiftRight);
-  }
-  else{
-    hd44780WriteRegister(lcdp->config->pins, lcdp->config->settings, LCD_INSTRUCTION_R,
-                         HD44780_CODS | HD44780_CODS_ShiftLeft);
-  }
+  hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_CDS | LCD_CDS_SC | dir);
 }
 
 #if LCD_USE_BACKLIGHT
@@ -451,6 +536,6 @@ void lcdBacklightFadeIn(LCDDriver *lcdp){
   }
 }
 #endif
-#endif /* USERLIB_USE_LCD */
 
 /** @} */
+#endif /* USERLIB_USE_LCD */

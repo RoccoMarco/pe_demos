@@ -40,13 +40,16 @@
 /*===========================================================================*/
 
 /**
+ * @brief   Enables 4 BIT mode.
+ * @note    Enabling this option LCD uses only D4 to D7 pins
+ */
+#define LCD_USE_4_BIT_MODE          FALSE
+
+/**
  * @brief   Enables backlight APIs.
  * @note    Enabling this option LCD requires a PWM driver
- *
  */
-#if !defined(LCD_USE_BACKLIGHT) || defined(__DOXYGEN__)
 #define LCD_USE_BACKLIGHT           TRUE
-#endif
 
 #endif /* _USERCONF_H_ */
 

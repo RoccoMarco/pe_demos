@@ -17,7 +17,7 @@
 */
 
 /*
-    Tested under ChibiOS 16.1.4, Project version 1.1
+    Tested under ChibiOS 16.1.4, Project version 2.0
     
     *** Change log 1.0 ***
     * - Project created
@@ -25,6 +25,11 @@
     *** Change log 1.1 ***
     * - Replaced Port and Pad with line
     * - Minor fix indent
+    *
+    *** Change log 2.0 ***
+    * - Improved LCD start up by adding initialization by instructions
+    * - Improved code and tested both 4-bit and 8 bit-mode
+    * - Now demos compiles and work with every user configuration
  */
  
 #include "hal.h"
@@ -35,21 +40,27 @@
 #define LINE_RS                     PAL_LINE(GPIOA, 4U)
 #define LINE_RW                     PAL_LINE(GPIOA, 1U)
 #define LINE_E                      PAL_LINE(GPIOA, 0U)
+#define LINE_A                      PAL_LINE(GPIOA, 8U)
+
+/* Data PIN are connected from PC0 to PC7 */
+#if !LCD_USE_4_BIT_MODE
 #define LINE_D0                     PAL_LINE(GPIOC, 0U)
 #define LINE_D1                     PAL_LINE(GPIOC, 1U)
 #define LINE_D2                     PAL_LINE(GPIOC, 2U)
 #define LINE_D3                     PAL_LINE(GPIOC, 3U)
+#endif
 #define LINE_D4                     PAL_LINE(GPIOC, 4U)
 #define LINE_D5                     PAL_LINE(GPIOC, 5U)
 #define LINE_D6                     PAL_LINE(GPIOC, 6U)
 #define LINE_D7                     PAL_LINE(GPIOC, 7U)
-#define LINE_A                      PAL_LINE(GPIOA, 8U)
 
 /*===========================================================================*/
 /* LCD configuration                                                         */
 /*===========================================================================*/
+
+#if LCD_USE_BACKLIGHT
 static const PWMConfig pwmcfg = {
-  100000,                                   /* 100kHz PWM clock frequency.  */
+  100000,                                   /* 100kHz PWM clock frequency.   */
   100,                                      /* PWM period is 1000 cycles.    */
   NULL,
   {
@@ -61,31 +72,39 @@ static const PWMConfig pwmcfg = {
   0,
   0
 };
+#endif
+
+static const lcd_pins_t lcdpins = {
+  LINE_RS,
+  LINE_RW,
+  LINE_E,
+  LINE_A,
+  {
+#if !LCD_USE_4_BIT_MODE
+   LINE_D0,
+   LINE_D1,
+   LINE_D2,
+   LINE_D3,
+#endif
+   LINE_D4,
+   LINE_D5,
+   LINE_D6,
+   LINE_D7
+  }
+};
 
 static const LCDConfig lcdcfg = {
-  {
-   LINE_RS,
-   LINE_RW,
-   LINE_E,
-   {
-    LINE_D0,
-    LINE_D1,
-    LINE_D2,
-    LINE_D3,
-    LINE_D4,
-    LINE_D5,
-    LINE_D6,
-    LINE_D7
-   },
-   LINE_A
-  },
-  HD44780_EMS_Inc,
-  HD44780_DC_DisplayOn | HD44780_DC_CursorOff | HD44780_DC_BlinkingOff,
-  HD44780_Set_Font5x10Dots | HD44780_Set_2Lines | HD44780_Set_DataLenght8bit,
-  &PWMD1,                                    /* PWM Driver for back-light */
-  &pwmcfg,                                   /* PWM driver configuration for back-light */
-  0,                                         /* PWM channel */
-  100,                                       /* Back-light */
+  LCD_CURSOR_OFF,           /* Cursor disabled */
+  LCD_BLINKING_OFF,         /* Blinking disabled */
+  LCD_SET_FONT_5X10,        /* Font 5x10 */
+  LCD_SET_2LINES,           /* 2 lines */
+  &lcdpins,                 /* pin map */
+#if LCD_USE_BACKLIGHT
+  &PWMD1,                   /* PWM Driver for back-light */
+  &pwmcfg,                  /* PWM driver configuration for back-light */
+  0,                        /* PWM channel */
+#endif
+  100,                      /* Back-light */
 };
 
 /*
@@ -104,24 +123,35 @@ static THD_FUNCTION(Thread1, arg) {
 }
 
 /*
- * Green LCD thread.
+ * Main thread.
  */
 static THD_WORKING_AREA(waThread2, 512);
 static THD_FUNCTION(Thread2, arg) {
   unsigned ii;
   (void)arg;
-  /*
-   * Setting RS, RW, E and A pin mode. Data pin are set internally since they
-   * could be used as input or output.
-   */
-  palSetPadMode(GPIOA, GPIOA_PIN8, PAL_MODE_ALTERNATE(1));
-  palSetPadMode(GPIOA, GPIOA_PIN0, PAL_MODE_OUTPUT_PUSHPULL |
+
+  lcdInit();
+
+#if LCD_USE_BACKLIGHT
+  /* Configuring Anode PIN as TIM1 CH1 alternate function. */
+  palSetLineMode(LINE_A, PAL_MODE_ALTERNATE(1));
+#else
+  /* Configuring Anode PIN as TIM1 CH1 alternate function. */
+  palSetLineMode(LINE_A, PAL_MODE_OUTPUT_PUSHPULL |
+                 PAL_STM32_OSPEED_HIGHEST);
+#endif
+
+
+  /* Configuring RW, RS and E PIN as Output Push Pull. Note that Data PIN are
+     managed Internally */
+  palSetLineMode(LINE_RW, PAL_MODE_OUTPUT_PUSHPULL |
                 PAL_STM32_OSPEED_HIGHEST);
-  palSetPadMode(GPIOA, GPIOA_PIN1, PAL_MODE_OUTPUT_PUSHPULL |
+  palSetLineMode(LINE_RS, PAL_MODE_OUTPUT_PUSHPULL |
                 PAL_STM32_OSPEED_HIGHEST);
-  palSetPadMode(GPIOA, GPIOA_PIN4, PAL_MODE_OUTPUT_PUSHPULL |
+  palSetLineMode(LINE_E, PAL_MODE_OUTPUT_PUSHPULL |
                 PAL_STM32_OSPEED_HIGHEST);
-  chThdSleepMilliseconds(100);
+
+
   lcdStart(&LCDD1, &lcdcfg);
   lcdWriteString(&LCDD1, "PLAY            Learn", 0);
   lcdWriteString(&LCDD1, "Embedded        by doing",40);
@@ -141,7 +171,8 @@ static THD_FUNCTION(Thread2, arg) {
 }
 
 /*
- * LCD backlight handler.
+ * Button checker. This thread turn on and off LCD backlight when USER button
+ * is pressed. Fade transition is applied when library use PWM.
  */
 static THD_WORKING_AREA(waThread3, 256);
 static THD_FUNCTION(Thread3, arg) {
@@ -151,10 +182,20 @@ static THD_FUNCTION(Thread3, arg) {
     if(palReadPad(GPIOC, GPIOC_BUTTON)){
       chThdSleepMilliseconds(50);
       if(!palReadPad(GPIOC, GPIOC_BUTTON)){
-        if(LCDD1.backlight > 0)
+        if(LCDD1.backlight > 0) {
+#if LCD_USE_BACKLIGHT
           lcdBacklightFadeOut(&LCDD1);
-        else
+#else
+          lcdBacklightOff(&LCDD1);
+#endif
+        }
+        else {
+#if LCD_USE_BACKLIGHT
           lcdBacklightFadeIn(&LCDD1);
+#else
+          lcdBacklightOn(&LCDD1);
+#endif
+        }
       }
     }
     chThdSleepMilliseconds(10);
@@ -185,8 +226,6 @@ int main(void) {
    */
   halInit();
   chSysInit();
-  lcdInit();
-
 
   while (true) {
   }
