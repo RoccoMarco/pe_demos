@@ -263,8 +263,6 @@ static void hd44780InitByIstructions(LCDDriver *lcdp) {
 
 /**
  * @brief   LCD Complex Driver initialization.
- * @note    This function is implicitly invoked by @p playInit(), there is
- *          no need to explicitly initialize the driver.
  *
  * @init
  */
