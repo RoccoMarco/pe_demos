@@ -309,7 +309,7 @@ void lcdStart(LCDDriver *lcdp, const LCDConfig *config) {
   /* Initializing HD44780 by instructions. */
   hd44780InitByIstructions(lcdp);
 
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   pwmStart(lcdp->config->pwmp, lcdp->config->pwmcfgp);
   pwmEnableChannel(lcdp->config->pwmp, lcdp->config->channelid,
                    PWM_PERCENTAGE_TO_WIDTH(lcdp->config->pwmp,
@@ -336,7 +336,7 @@ void lcdStop(LCDDriver *lcdp) {
 
   osalDbgAssert((lcdp->state == LCD_STOP) || (lcdp->state == LCD_ACTIVE),
               "lcdStop(), invalid state");
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   pwmStop(lcdp->config->pwmp);
 #else
   palClearLine(lcdp->config->pinmap->A);
@@ -358,7 +358,7 @@ void lcdBacklightOn(LCDDriver *lcdp) {
 
   osalDbgCheck(lcdp != NULL);
   osalDbgAssert((lcdp->state == LCD_ACTIVE), "lcdBacklightOn(), invalid state");
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   pwmEnableChannel(lcdp->config->pwmp, lcdp->config->channelid,
                    PWM_PERCENTAGE_TO_WIDTH(lcdp->config->pwmp, 10000));
 
@@ -379,7 +379,7 @@ void lcdBacklightOff(LCDDriver *lcdp) {
 
   osalDbgCheck(lcdp != NULL);
   osalDbgAssert((lcdp->state == LCD_ACTIVE), "lcdBacklightOff(), invalid state");
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   pwmDisableChannel(lcdp->config->pwmp, lcdp->config->channelid);
 
 #else
@@ -480,7 +480,7 @@ void lcdDoDisplayShift(LCDDriver *lcdp, uint8_t dir){
   hd44780WriteRegister(lcdp, LCD_INSTRUCTION_R, LCD_CDS | LCD_CDS_SC | dir);
 }
 
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
 /**
  * @brief   Set back-light percentage.
  *

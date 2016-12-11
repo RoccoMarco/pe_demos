@@ -64,8 +64,8 @@
  * @note    Enabling this option LCD requires a PWM driver.
  * @note    The default is @p TRUE.
  */
-#if !defined(LCD_USE_BACKLIGHT) || defined(__DOXYGEN__)
-#define LCD_USE_BACKLIGHT               TRUE
+#if !defined(LCD_USE_DIMMABLE_BACKLIGHT) || defined(__DOXYGEN__)
+#define LCD_USE_DIMMABLE_BACKLIGHT               TRUE
 #endif
 
 /**
@@ -90,8 +90,8 @@
 #define LCD_DATA_LENGHT                 0x10
 #endif
 
-#if LCD_USE_BACKLIGHT && !HAL_USE_PWM
-#error "LCD_USE_BACKLIGHT  requires HAL_USE_PWM"
+#if LCD_USE_DIMMABLE_BACKLIGHT && !HAL_USE_PWM
+#error "LCD_USE_DIMMABLE_BACKLIGHT requires HAL_USE_PWM"
 #endif
 
 /*===========================================================================*/
@@ -183,12 +183,10 @@ typedef struct {
    * @brief  LCD blinking control
    */
   lcd_blinking_t blinking;
-
   /**
    * @brief  LCD display settings
    */
   lcd_set_font_t font;
-
   /**
    * @brief  LCD display settings
    */
@@ -197,7 +195,7 @@ typedef struct {
    * @brief  LCD PIN-map
    */
   lcd_pins_t const *pinmap;
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   /**
    * @brief  PWM driver for back-light managing
    */
@@ -213,7 +211,7 @@ typedef struct {
 #endif
   /**
    * @brief  Initial Back-light percentage (from 0 to 100)
-   * @note   If !LCD_USE_BACKLIGHT this is just true or false
+   * @note   If !LCD_USE_DIMMABLE_BACKLIGHT this is just true or false
    */
   uint32_t backlight;
 } LCDConfig;
@@ -229,7 +227,7 @@ typedef struct {
   /**
    * @brief  Current Back-light percentage (from 0 to 100)
    *
-   * @detail When LCD_USE_BACKLIGHT is false, this is considered like boolean
+   * @detail When LCD_USE_DIMMABLE_BACKLIGHT is false, this is considered like boolean
    */
   uint32_t           backlight;
   /**
@@ -262,11 +260,11 @@ extern "C" {
   void lcdSetAddress(LCDDriver *lcdp, uint8_t add);
   void lcdWriteString(LCDDriver *lcdp, char* string, uint8_t pos);
   void lcdDoDisplayShift(LCDDriver *lcdp, uint8_t dir);
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   void lcdSetBacklight(LCDDriver *lcdp, uint32_t perc);
   void lcdBacklightFadeOut(LCDDriver *lcdp);
   void lcdBacklightFadeIn(LCDDriver *lcdp);
-#endif
+#endif /* LCD_USE_DIMMABLE_BACKLIGHT */
 #ifdef __cplusplus
 }
 #endif

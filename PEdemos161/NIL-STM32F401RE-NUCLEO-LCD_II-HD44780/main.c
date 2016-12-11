@@ -58,7 +58,7 @@
 /* LCD configuration                                                         */
 /*===========================================================================*/
 
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
 static const PWMConfig pwmcfg = {
   100000,                                   /* 100kHz PWM clock frequency.   */
   100,                                      /* PWM period is 1000 cycles.    */
@@ -99,7 +99,7 @@ static const LCDConfig lcdcfg = {
   LCD_SET_FONT_5X10,        /* Font 5x10 */
   LCD_SET_2LINES,           /* 2 lines */
   &lcdpins,                 /* pin map */
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   &PWMD1,                   /* PWM Driver for back-light */
   &pwmcfg,                  /* PWM driver configuration for back-light */
   0,                        /* PWM channel */
@@ -132,7 +132,7 @@ static THD_FUNCTION(Thread2, arg) {
 
   lcdInit();
 
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
   /* Configuring Anode PIN as TIM1 CH1 alternate function. */
   palSetLineMode(LINE_A, PAL_MODE_ALTERNATE(1));
 #else
@@ -183,14 +183,14 @@ static THD_FUNCTION(Thread3, arg) {
       chThdSleepMilliseconds(50);
       if(!palReadPad(GPIOC, GPIOC_BUTTON)){
         if(LCDD1.backlight > 0) {
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
           lcdBacklightFadeOut(&LCDD1);
 #else
           lcdBacklightOff(&LCDD1);
 #endif
         }
         else {
-#if LCD_USE_BACKLIGHT
+#if LCD_USE_DIMMABLE_BACKLIGHT
           lcdBacklightFadeIn(&LCDD1);
 #else
           lcdBacklightOn(&LCDD1);

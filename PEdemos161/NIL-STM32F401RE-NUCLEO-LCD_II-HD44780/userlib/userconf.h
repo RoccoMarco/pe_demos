@@ -49,7 +49,7 @@
  * @brief   Enables backlight APIs.
  * @note    Enabling this option LCD requires a PWM driver
  */
-#define LCD_USE_BACKLIGHT           TRUE
+#define LCD_USE_DIMMABLE_BACKLIGHT  TRUE
 
 #endif /* _USERCONF_H_ */
 
