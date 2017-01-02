@@ -17,7 +17,7 @@
 */
 
 /*
-    Tested under ChibiOS 16.1.4, Project version 2.0
+    Tested with ChibiOS 17.x.x, Project version 3.0
     
     *** Change log 1.0 ***
     * - Project created
@@ -30,10 +30,14 @@
     * - Improved LCD start up by adding initialization by instructions
     * - Improved code and tested both 4-bit and 8 bit-mode
     * - Now demos compiles and work with every user configuration
+
+    *** Change log 3.0 ***
+    * - Updated to ChibiOS/NIL 2.0.0
+    * - Tested with ChibiOS 17.x.x
  */
  
 #include "hal.h"
-#include "nil.h"
+#include "ch.h"
 
 #include "lcd.h"
 
