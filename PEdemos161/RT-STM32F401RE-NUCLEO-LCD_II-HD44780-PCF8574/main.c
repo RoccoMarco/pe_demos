@@ -17,10 +17,12 @@
 */
 
 /*
-    Tested under ChibiOS 16.1.4, Project version 1.0
+    Tested under ChibiOS 16.1.4, Project version 1.1
     
     *** Change log 1.0 ***
     * - Project created
+    *** Change log 1.1 ***
+    * - Minor comment fix
  */
 
 #include "ch.h"

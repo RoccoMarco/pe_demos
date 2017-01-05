@@ -146,11 +146,11 @@ typedef struct {
    */
   lcd_blinking_t blinking;
   /**
-   * @brief  LCD display settings
+   * @brief  LCD font setting
    */
   lcd_set_font_t font;
   /**
-   * @brief  LCD display settings
+   * @brief  LCD lines settings
    */
   lcd_set_lines_t lines;
   /**
@@ -169,7 +169,6 @@ typedef struct {
   lcd_state_t        state;
   /**
    * @brief  Current Back-light status.
-   *
    */
   bool               backlight;
   /**
