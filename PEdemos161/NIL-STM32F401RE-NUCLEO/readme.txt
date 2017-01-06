@@ -12,6 +12,7 @@ This demo comes as standalone, there is no article associated with it.
 *****************************************************************************
 *** Releases and Change Log                                               ***
 *****************************************************************************
+
 *** 1.0 ***
  - Project created.
 
