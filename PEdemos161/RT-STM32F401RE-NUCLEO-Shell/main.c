@@ -1,5 +1,7 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+    PLAY Embedded demos - Copyright (C) 2014-2017 Rocco Marco Guglielmi
+
+    This file is part of PLAY Embedded demos.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -15,10 +17,8 @@
 */
 
 /*
-    Tested under ChibiOS 16.1.4, Project version 1.0
-    
-    *** Change log 1.0 ***
-    * - Project created
+ *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Please open readme.txt for changelog.
  */
  
 #include "ch.h"
