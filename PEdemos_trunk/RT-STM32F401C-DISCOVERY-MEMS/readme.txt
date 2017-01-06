@@ -1,25 +1,25 @@
 *****************************************************************************
-** ChibiOS/RT port for ARM-Cortex-M4 STM32F401.                            **
+** PLAY Embedded demos - MEMS on STM32F4 Discovery                         **
 *****************************************************************************
 
-** TARGET **
+*** About ***
+This demo runs on STM32F3 Discovery. In this demo the STM32 gets data from
+the on board MEMS
 
-The demo runs on an ST STM32F401C-Discovery board.
+*** Related article ***
+For more information read the article "STM32F3 discovery and MEMS".
+http://www.playembedded.org/blog/en/2015/04/17/stm32f3-discovery-and-mems/
 
-** The Demo **
+*****************************************************************************
+*** Releases and Change Log                                               ***
+*****************************************************************************
 
+*** Change log 1.0 ***
+ - Project created
 
-** Build Procedure **
+*** Change log 1.1 ***
+ - Ported to 16.1.4
 
-The demo has been tested by using the free Codesourcery GCC-based toolchain
-and YAGARTO. just modify the TRGT line in the makefile in order to use
-different GCC toolchains.
-
-** Notes **
-
-Some files used by the demo are not part of ChibiOS/RT but are copyright of
-ST Microelectronics and are licensed under a different license.
-Also note that not all the files present in the ST library are distributed
-with ChibiOS/RT, you can find the whole library on the ST web site:
-
-                             http://www.st.com
+*** Change log 1.2 ***
+ - Created this file and moved change-log here.
+ - Updated licence.     

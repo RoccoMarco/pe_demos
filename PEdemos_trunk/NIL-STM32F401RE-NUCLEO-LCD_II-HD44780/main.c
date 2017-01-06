@@ -1,5 +1,5 @@
 /*
-    PLAY Embedded demos - Copyright (C) 2014-2016 Rocco Marco Guglielmi
+    PLAY Embedded demos - Copyright (C) 2014-2017 Rocco Marco Guglielmi
 
     This file is part of PLAY Embedded demos.
 
@@ -17,27 +17,12 @@
 */
 
 /*
-    Tested with ChibiOS 17.x.x, Project version 3.0
-    
-    *** Change log 1.0 ***
-    * - Project created
-    *
-    *** Change log 1.1 ***
-    * - Replaced Port and Pad with line
-    * - Minor fix indent
-    *
-    *** Change log 2.0 ***
-    * - Improved LCD start up by adding initialization by instructions
-    * - Improved code and tested both 4-bit and 8 bit-mode
-    * - Now demos compiles and work with every user configuration
-
-    *** Change log 3.0 ***
-    * - Updated to ChibiOS/NIL 2.0.0
-    * - Tested with ChibiOS 17.x.x
+ *  Tested under ChibiOS 16.1.4, Project version 2.2.
+ *  Please open readme.txt for changelog.
  */
  
 #include "hal.h"
-#include "ch.h"
+#include "nil.h"
 
 #include "lcd.h"
 

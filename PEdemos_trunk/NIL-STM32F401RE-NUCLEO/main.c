@@ -1,5 +1,5 @@
 /*
-    PLAY Embedded demos - Copyright (C) 2014-2016 Rocco Marco Guglielmi
+    PLAY Embedded demos - Copyright (C) 2014-2017 Rocco Marco Guglielmi
 
     This file is part of PLAY Embedded demos.
 
@@ -17,23 +17,12 @@
 */
 
 /*
-    Tested under ChibiOS 17.x.x, Project version 2.0
-
-    *** Change log 1.0 ***
-    * - Project created
-
-    *** Change log 1.1 ***
-    * - Tested under ChibiOS 16.1.4
-    * - Updated comments
-
-    *** Change log 2.0 ***
-    * - Updated to ChibiOS/NIL 2.0.0
-    * - Tested with ChibiOS 17.x.x
-
+ *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Please open readme.txt for changelog.
  */
 
 #include "hal.h"
-#include "ch.h"
+#include "nil.h"
 
 /* Green LED blinker thread, times are in milliseconds. */
 static THD_WORKING_AREA(waThread1, 256);
