@@ -1,5 +1,5 @@
 /*
-    PLAY Embedded demos - Copyright (C) 2014-2016 Rocco Marco Guglielmi
+    PLAY Embedded demos - Copyright (C) 2014-2017 Rocco Marco Guglielmi
 
     This file is part of PLAY Embedded demos.
 
@@ -17,10 +17,8 @@
 */
 
 /*
-    Tested under ChibiOS 16.1.4, Project version 1.0
-    
-    *** Change log 1.0 ***
-    * - Project created
+ *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Please open readme.txt for changelog.
  */
  
 #include "ch.h"
@@ -28,7 +26,6 @@
 
 #include "chprintf.h"
 #include "usbcfg.h"
-
 
 #define C5 1911
 #define D5 1703

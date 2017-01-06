@@ -1,25 +1,29 @@
 *****************************************************************************
-** ChibiOS/RT port for ARM-Cortex-M4 STM32F407.                            **
+** PLAY Embedded demos - MIKROE-CLICKER2 ChibiOS port                      **
 *****************************************************************************
 
-** TARGET **
+*** About ***
+This demo runs on Mikroe Clicker 2 board.
 
-The demo runs on an ST STM32F4-Discovery board.
+*** Related article ***
+For more information read the article "Getting started with mikroe Clicker 2 
+for STM32 with ChibiOS".
+http://www.playembedded.org/blog/en/2015/12/17/getting-started-with-mikroe-clicker-2-for-stm32-with-chibios/
 
-** The Demo **
+*****************************************************************************
+*** Releases and Change Log                                               ***
+*****************************************************************************
 
+*** Change log 1.0 ***
+ - Project created
 
-** Build Procedure **
+*** Change log 1.1 ***
+ - Removed unused folder.
+ - Updated device-lib link
+    
+*** Change log 1.2 ***
+ - Ported to 16.1.4
 
-The demo has been tested by using the free Codesourcery GCC-based toolchain
-and YAGARTO. just modify the TRGT line in the makefile in order to use
-different GCC toolchains.
-
-** Notes **
-
-Some files used by the demo are not part of ChibiOS/RT but are copyright of
-ST Microelectronics and are licensed under a different license.
-Also note that not all the files present in the ST library are distributed
-with ChibiOS/RT, you can find the whole library on the ST web site:
-
-                             http://www.st.com
+*** Change log 1.3 ***
+ - Created this file and moved change-log here.
+ - Updated licence.
