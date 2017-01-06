@@ -1,28 +1,19 @@
 *****************************************************************************
-** ChibiOS/RT port for ARM-Cortex-M4 STM32F401.                            **
+** PLAY Embedded demos - HD44780 with Backpack on STM32 using ChibiOS/RT   **
 *****************************************************************************
 
-** TARGET **
+*** About ***
+This demo runs on STM32 Nucleo-64 F401RE. The MCU drives a LCD 16x2 based 
+on HD44780 with a I2C Backpack. The used RTOS is ChibiOS/RT.
 
-The demo runs on an ST_NUCLEO_F401RE board.
+*** Related article ***
+For more information read the article "How to drive a HD44780 with I2C 
+backpack with a STM32".
+http://www.playembedded.org/blog/en/2016/12/20/hd44780-backpack-stm32/
 
-** The Demo **
+*****************************************************************************
+*** Releases and Change Log                                               ***
+*****************************************************************************
 
-The demo flashes the board LED using a thread, by pressing the button located
-on the board the test procedure is activated with output on the serial port
-SD2 (USART2, mapped on USB virtual COM port).
-
-** Build Procedure **
-
-The demo has been tested by using the free Codesourcery GCC-based toolchain
-and YAGARTO.
-Just modify the TRGT line in the makefile in order to use different GCC ports.
-
-** Notes **
-
-Some files used by the demo are not part of ChibiOS/RT but are copyright of
-ST Microelectronics and are licensed under a different license.
-Also note that not all the files present in the ST library are distributed
-with ChibiOS/RT, you can find the whole library on the ST web site:
-
-                             http://www.st.com
+*** Change log 1.0 ***
+ - Project created.
