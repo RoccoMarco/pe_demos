@@ -1,28 +1,29 @@
 *****************************************************************************
-** ChibiOS/RT port for ARM-Cortex-M4 STM32F401.                            **
+** PLAY Embedded demos - 7-Segment Display and STM32                       **
 *****************************************************************************
 
-** TARGET **
+*** About ***
+This demo runs on STM32 Nucleo-64 F401RE. The aim of this demo is to drive
+a 8x8 LED matrix with a STM32 using ChibiOS.
 
-The demo runs on an ST_NUCLEO_F401RE board.
+*** Related article ***
+For more information read the article "STM32, ChibiOS and a 8×8 LED Matrix".
+http://www.playembedded.org/blog/en/2015/08/02/stm32-chibios-and-a-8x8-led-matrix/
 
-** The Demo **
+*****************************************************************************
+*** Releases and Change Log                                               ***
+*****************************************************************************
 
-The demo flashes the board LED using a thread, by pressing the button located
-on the board the test procedure is activated with output on the serial port
-SD2 (USART2, mapped on USB virtual COM port).
+*** Change log 1.0 ***
+ - Project created
 
-** Build Procedure **
+*** Change log 1.1 ***
+ - Removed unused folder.
+ - Updated device-lib link
 
-The demo has been tested by using the free Codesourcery GCC-based toolchain
-and YAGARTO.
-Just modify the TRGT line in the makefile in order to use different GCC ports.
+*** Change log 1.2 ***
+ - Ported to 16.1.4
 
-** Notes **
-
-Some files used by the demo are not part of ChibiOS/RT but are copyright of
-ST Microelectronics and are licensed under a different license.
-Also note that not all the files present in the ST library are distributed
-with ChibiOS/RT, you can find the whole library on the ST web site:
-
-                             http://www.st.com
+*** Change log 1.3 ***
+ - Created this file and moved change-log here.
+ - Updated licence.

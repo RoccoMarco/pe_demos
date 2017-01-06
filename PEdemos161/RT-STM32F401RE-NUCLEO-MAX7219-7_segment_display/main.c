@@ -1,5 +1,5 @@
 /*
-    PLAY Embedded demos - Copyright (C) 2014-2016 Rocco Marco Guglielmi
+    PLAY Embedded demos - Copyright (C) 2014-2017 Rocco Marco Guglielmi
 
     This file is part of PLAY Embedded demos.
 
@@ -17,15 +17,13 @@
 */
 
 /*
-    Tested under ChibiOS 16.1.4, Project version 1.1
-
-    * 1.1 Change-log
-    * - Removed unused folder.
-    * - Updated device-lib link
+ *  Tested under ChibiOS 16.1.4, Project version 1.3.
+ *  Please open readme.txt for changelog.
  */
 
 #include "ch.h"
 #include "hal.h"
+
 #include "chprintf.h"
 #include "max7219.h"
 
