@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Tested under ChibiOS 17.2.0, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
  
@@ -52,6 +52,7 @@ static const SPIConfig spi_cfg = {
   PORT_SPI1_CS,                                   /*   port of CS   */
   PIN_SPI1_CS,                                    /*   pin of CS    */
   SPI_CR1_BR,                                     /*   CR1 register */
+  0                                               /*   CR2 register */
 };
 /*===========================================================================*/
 /* Common functions                                                          */

@@ -63,9 +63,10 @@ static uint32_t timeout = 7000;
  */
 static const SPIConfig spi_cfg = {
   NULL,
-  PORT_SPI1_CS,                                   /*   port of CS  */
-  PIN_SPI1_CS  ,                                  /*   pin of CS   */
-  SPI_CR1_BR_0,                                   /*   CR1 register*/
+  PORT_SPI1_CS,                                   /*   port of CS   */
+  PIN_SPI1_CS  ,                                  /*   pin of CS    */
+  SPI_CR1_BR_0,                                   /*   CR1 register */
+  0                                               /*   CR2 register */
 };
 /*===========================================================================*/
 /* Common functions                                                          */
