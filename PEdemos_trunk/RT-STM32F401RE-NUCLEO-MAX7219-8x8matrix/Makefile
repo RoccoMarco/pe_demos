@@ -105,8 +105,7 @@ CSRC = $(STARTUPSRC) \
        $(PLATFORMSRC) \
        $(BOARDSRC) \
        $(TESTSRC) \
-       $(CHIBIOS)/os/hal/lib/streams/memstreams.c \
-       $(CHIBIOS)/os/hal/lib/streams/chprintf.c \
+       $(STREAMSSRC) \
        $(CHIBIOS)/community/os/various/devices_lib/others/max7219.c \
        main.c
 
@@ -140,9 +139,8 @@ ASMXSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 INCDIR = $(CHIBIOS)/os/license \
          $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
-         $(CHIBIOS)/os/hal/lib/streams \
-         $(CHIBIOS)/community/os/various/devices_lib/others \
-         $(CHIBIOS)/os/various
+         $(STREAMSINC)\
+         $(CHIBIOS)/community/os/various/devices_lib/others 
 
 #
 # Project, sources and paths

@@ -93,6 +93,7 @@ include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # Other files (optional).
 include ./userlib/user.mk
+include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 
 # Define linker script file here
 LDSCRIPT= $(STARTUPLD)/STM32F401xE.ld
@@ -107,8 +108,7 @@ CSRC = $(STARTUPSRC) \
        $(PLATFORMSRC) \
        $(BOARDSRC) \
        $(TESTSRC) \
-       $(CHIBIOS)/os/hal/lib/streams/memstreams.c \
-       $(CHIBIOS)/os/hal/lib/streams/chprintf.c \
+       $(STREAMSSRC) \
        $(USERSRC) \
        main.c
 
@@ -142,8 +142,7 @@ ASMXSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 INCDIR = $(CHIBIOS)/os/license \
          $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
-         $(USERINC) $(CHIBIOS)/os/hal/lib/streams \
-         $(CHIBIOS)/os/various
+         $(USERINC) $(STREAMSINC)
 
 #
 # Project, sources and paths
