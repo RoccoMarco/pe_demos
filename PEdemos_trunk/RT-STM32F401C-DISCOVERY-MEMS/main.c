@@ -66,9 +66,10 @@ static const I2CConfig i2c_cfg = {
 
 static const SPIConfig spi_cfg = {
   NULL,
-  GPIOE,                                          /*   port of CS  */
-  GPIOE_L3GD20_CS,                                /*   pin of CS   */
-  SPI_CR1_BR_0 | SPI_CR1_CPOL | SPI_CR1_CPHA,     /*   CR1 register*/
+  GPIOE,                                          /*   port of CS   */
+  GPIOE_L3GD20_CS,                                /*   pin of CS    */
+  SPI_CR1_BR_0 | SPI_CR1_CPOL | SPI_CR1_CPHA,     /*   CR1 register */
+  0                                               /*   CR2 register */
 };
 
 /*===========================================================================*/
