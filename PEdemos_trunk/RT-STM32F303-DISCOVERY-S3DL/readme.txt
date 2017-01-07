@@ -15,14 +15,14 @@ http://www.playembedded.org/blog/en/category/projects/chibicube/
 *****************************************************************************
 
 *** Change log 1.0 ***
- - Project created
+ - Project created.
 
 *** Change log 1.1 ***
- - Ported to 16.1.4
+ - Ported to 16.1.4.
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
  - Updated license.     
 
 *** Change log 2.0 ***
- - Ported to 17.2.0
+ - Ported to 17.2.0.
