@@ -25,4 +25,4 @@ http://www.playembedded.org/blog/en/2015/06/23/using-dht11-with-chibiosrt/
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

@@ -22,4 +22,4 @@ http://www.playembedded.org/blog/en/2015/04/17/stm32f3-discovery-and-mems/
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.     
+ - Updated license.     

@@ -27,4 +27,4 @@ http://www.playembedded.org/blog/en/2015/08/10/7-segment-display-and-stm32-using
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

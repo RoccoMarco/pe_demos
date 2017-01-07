@@ -23,4 +23,4 @@ http://www.playembedded.org/blog/en/2015/08/11/reading-a-joystick-on-stm32-using
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

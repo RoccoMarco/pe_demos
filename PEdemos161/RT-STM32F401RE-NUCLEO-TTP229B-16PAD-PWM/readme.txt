@@ -22,4 +22,4 @@ http://www.playembedded.org/blog/en/2015/07/21/capacitive-touchpad-and-st-nucleo
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

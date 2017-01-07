@@ -22,4 +22,4 @@ http://www.playembedded.org/blog/en/category/projects/chibicube/
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.     
+ - Updated license.     

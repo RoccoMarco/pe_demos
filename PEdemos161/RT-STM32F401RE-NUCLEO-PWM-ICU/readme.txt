@@ -21,4 +21,4 @@ This demo comes as standalone, there is no article associated with it.
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

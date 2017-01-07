@@ -22,4 +22,4 @@ http://www.playembedded.org/blog/en/2016/02/23/getting-started-with-mikroe-buzz-
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

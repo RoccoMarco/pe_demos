@@ -22,4 +22,4 @@ http://www.playembedded.org/blog/en/2015/08/07/reading-a-slider/
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.

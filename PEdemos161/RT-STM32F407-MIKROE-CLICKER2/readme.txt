@@ -26,4 +26,4 @@ http://www.playembedded.org/blog/en/2015/12/17/getting-started-with-mikroe-click
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.
