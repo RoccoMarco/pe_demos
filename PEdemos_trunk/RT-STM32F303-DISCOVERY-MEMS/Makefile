@@ -94,6 +94,7 @@ include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # Other files (optional).
 include $(CHIBIOS)/test/rt/test.mk
+include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 
 # Define linker script file here
 LDSCRIPT= $(STARTUPLD)/STM32F303xC.ld
@@ -109,9 +110,7 @@ CSRC = $(STARTUPSRC) \
        $(BOARDSRC) \
        $(TESTSRC) \
        $(USERSRC) \
-       $(CHIBIOS)/os/various/shell.c \
-       $(CHIBIOS)/os/hal/lib/streams/memstreams.c \
-       $(CHIBIOS)/os/hal/lib/streams/chprintf.c \
+       $(STREAMSSRC) \
        $(CHIBIOS)/community/os/various/devices_lib/mems/l3gd20.c \
        $(CHIBIOS)/community/os/various/devices_lib/mems/lsm303dlhc.c \
        usbcfg.c main.c
@@ -143,10 +142,10 @@ TCPPSRC =
 # List ASM source files hereASMSRC =
 ASMXSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 
-INCDIR = $(CHIBIOS)/os/license \r
+INCDIR = $(CHIBIOS)/os/license \
          $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
-         $(USERINC) $(CHIBIOS)/os/hal/lib/streams $(CHIBIOS)/os/various \
+         $(STREAMSINC) $(USERINC) \
          $(CHIBIOS)/community/os/various/devices_lib/mems \
          ./userlib
 #
