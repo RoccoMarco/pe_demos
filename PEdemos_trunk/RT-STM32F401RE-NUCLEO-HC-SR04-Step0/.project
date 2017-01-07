@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RT-STM32F401RE-NUCLEO-HC-SR04-Step1</name>
+	<name>RT-STM32F401RE-NUCLEO-HC-SR04-Step0</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -27,7 +27,7 @@
 		<link>
 			<name>board</name>
 			<type>2</type>
-			<locationURI>CHIBIOS/os/hal/boards/ST_NUCLEO_F401RE</locationURI>
+			<locationURI>CHIBIOS/os/hal/boards/ST_NUCLEO64_F401RE</locationURI>
 		</link>
 		<link>
 			<name>os</name>
