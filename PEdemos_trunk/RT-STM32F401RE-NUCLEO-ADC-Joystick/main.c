@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Tested under ChibiOS 16.1.4, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
  
@@ -87,8 +87,8 @@ static THD_FUNCTION(Thd2, arg) {
   /*
    * Setting up VRx and VRy pins.
    */
-  palSetPadMode(GPIOA, GPIOA_PIN0, PAL_MODE_INPUT_ANALOG);
-  palSetPadMode(GPIOA, GPIOA_PIN1, PAL_MODE_INPUT_ANALOG);
+  palSetLineMode(LINE_ADC1_IN0, PAL_MODE_INPUT_ANALOG);
+  palSetLineMode(LINE_ADC1_IN1, PAL_MODE_INPUT_ANALOG);
   
   /*
    * Activates the ADC1 driver.
@@ -173,7 +173,7 @@ int main(void) {
   /*
    * Setting up SW pin.
    */
-  palSetPadMode(GPIOA, GPIOA_PIN4, PAL_MODE_INPUT_PULLUP);
+  palSetLineMode(LINE_ARD_A2, PAL_MODE_INPUT_PULLUP);
   
   /*
    * Normal main() thread activity, in this demo it checks flag status. If flag
