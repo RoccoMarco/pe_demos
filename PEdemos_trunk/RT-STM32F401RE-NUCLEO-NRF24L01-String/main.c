@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Tested under ChibiOS 17.2.0, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
 
@@ -39,9 +39,10 @@
 #define  FRAME_LEN                         5
 static const SPIConfig std_spi_cfg = {
   NULL,
-  GPIOB,                                   /*   port of CS  */
-  GPIOB_RF_SPID1_CS,                       /*   pin of CS   */
-  SPI_CR1_BR_1 | SPI_CR1_BR_0              /*   CR1 register*/
+  GPIOB,                                          /*   port of CS   */
+  GPIOB_RF_SPID1_CS,                              /*   pin of CS    */
+  SPI_CR1_BR_1 | SPI_CR1_BR_0,                    /*   CR1 register */
+  0                                               /*   CR2 register */
 };
 
 static const EXTConfig extcfg = {

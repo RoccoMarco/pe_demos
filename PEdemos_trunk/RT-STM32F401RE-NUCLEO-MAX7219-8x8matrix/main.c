@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.3.
+ *  Tested under ChibiOS 17.2.0, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
 
@@ -64,9 +64,10 @@ static uint8_t presets[MAX_PRESET_NUMB][MAX_DIGITS] = {
 
 static const SPIConfig spicfg = {
   NULL,
-  GPIOB,                                          /*   port of CS  */
-  GPIOB_SPID1_CS,                                 /*   pin of CS   */
-  SPI_CR1_BR | SPI_CR1_DFF                        /*   CR1 register */
+  GPIOB,                                          /*   port of CS   */
+  GPIOB_SPID1_CS,                                 /*   pin of CS    */
+  SPI_CR1_BR | SPI_CR1_DFF,                       /*   CR1 register */
+  0                                               /*   CR2 register */
 };
 
 /*===========================================================================*/

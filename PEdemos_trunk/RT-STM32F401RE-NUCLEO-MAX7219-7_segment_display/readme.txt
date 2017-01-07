@@ -16,15 +16,18 @@ http://www.playembedded.org/blog/en/2015/08/10/7-segment-display-and-stm32-using
 *****************************************************************************
 
 *** Change log 1.0 ***
- - Project created
+ - Project created.
 
 *** Change log 1.1 ***
  - Removed unused folder.
- - Updated device-lib link
+ - Updated device-lib link.
     
 *** Change log 1.2 ***
- - Ported to 16.1.4
+ - Ported to 16.1.4.
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.
+ 
+*** Change log 2.0 ***
+ - Ported to 17.2.0.
