@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.3.
+ *  Tested under ChibiOS 17.2.0, Project version 2.0.
  *  Please open readme.txt for changelog.
  */   
 
@@ -153,16 +153,16 @@ int main(void) {
     /*
      * Making a request
      */
-    palSetPadMode(GPIOA, GPIOA_PIN8, PAL_MODE_OUTPUT_PUSHPULL);
-    palWritePad(GPIOA, GPIOA_PIN8, PAL_LOW);
+    palSetPadMode(GPIOA, GPIOA_ARD_D7, PAL_MODE_OUTPUT_PUSHPULL);
+    palWritePad(GPIOA, GPIOA_ARD_D7, PAL_LOW);
     chThdSleepMicroseconds(MCU_REQUEST_WIDTH);
-    palWritePad(GPIOA, GPIOA_PIN8, PAL_HIGH);
+    palWritePad(GPIOA, GPIOA_ARD_D7, PAL_HIGH);
 
     /*
      * Initializes the ICU driver 1.
      * GPIOA8 is the ICU input.
      */
-    palSetPadMode(GPIOA, GPIOA_PIN8, PAL_MODE_ALTERNATE(1));
+    palSetPadMode(GPIOA, GPIOA_ARD_D7, PAL_MODE_ALTERNATE(1));
     icuStart(&ICUD1, &icucfg);
     icuStartCapture(&ICUD1);
     icuEnableNotifications(&ICUD1);
