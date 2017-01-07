@@ -1,5 +1,5 @@
 /*
-    ChibiOS/RT - Copyright (C) 2006-2013 Giovanni Di Sirio
+    ChibiOS - Copyright (C) 2006..2016 Giovanni Di Sirio
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,28 +14,13 @@
     limitations under the License.
 */
 
-#ifndef _USBCFG_H_
-#define _USBCFG_H_
+#ifndef USBCFG_H
+#define USBCFG_H
 
-#if HAL_USE_SERIAL_USB || defined(__DOXYGEN__)
-/*
- * DP resistor control is not possible on the STM32F3-Discovery, using stubs
- * for the connection macros.
- */
-#if !defined (usb_lld_connect_bus)
-#define usb_lld_connect_bus(usbp)
-#endif
-
-#if !defined (usb_lld_disconnect_bus)
-#define usb_lld_disconnect_bus(usbp)
-#endif
-
-extern SerialUSBDriver SDU1;
 extern const USBConfig usbcfg;
 extern SerialUSBConfig serusbcfg;
+extern SerialUSBDriver SDU1;
 
-
-#endif /* HAL_USE_SERIAL_USB */
-#endif  /* _USBCFG_H_ */
+#endif  /* USBCFG_H */
 
 /** @} */
