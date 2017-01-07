@@ -146,11 +146,11 @@ typedef struct {
    */
   lcd_blinking_t blinking;
   /**
-   * @brief  LCD display settings
+   * @brief  LCD font settings
    */
   lcd_set_font_t font;
   /**
-   * @brief  LCD display settings
+   * @brief  LCD lines settings
    */
   lcd_set_lines_t lines;
   /**

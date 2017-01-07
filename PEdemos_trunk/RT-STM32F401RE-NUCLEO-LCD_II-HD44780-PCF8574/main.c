@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.0.
+ *  Tested under ChibiOS 17.2.0, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
 
@@ -35,22 +35,6 @@ static uint8_t ii;
 /*===========================================================================*/
 /* LCD configuration                                                         */
 /*===========================================================================*/
-
-#if LCD_USE_DIMMABLE_BACKLIGHT
-static const PWMConfig pwmcfg = {
-  100000,                                   /* 100kHz PWM clock frequency.   */
-  100,                                      /* PWM period is 1000 cycles.    */
-  NULL,
-  {
-   {PWM_OUTPUT_ACTIVE_HIGH, NULL},
-   {PWM_OUTPUT_DISABLED, NULL},
-   {PWM_OUTPUT_DISABLED, NULL},
-   {PWM_OUTPUT_DISABLED, NULL}
-  },
-  0,
-  0
-};
-#endif
 
 static const I2CConfig i2ccfg = {
   OPMODE_I2C,
