@@ -36,9 +36,10 @@ static uint32_t percentage[3], tmp;
 /*===========================================================================*/
 
 /*
- * In this demo we want to use a single channel to sample voltage across
- * the potentiometer.
+ *  Tested under ChibiOS 16.1.4, Project version 2.0.
+ *  Please open readme.txt for changelog.
  */
+
 #define MY_NUM_CH                                              1
 #define MY_SAMPLING_NUMBER                                    10
 

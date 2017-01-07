@@ -22,4 +22,7 @@ http://www.playembedded.org/blog/en/2015/02/16/sampling-and-dimming/
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
- - Updated licence.
+ - Updated license.
+
+*** Change log 2.0 ***
+ - Ported to 17.2.0
