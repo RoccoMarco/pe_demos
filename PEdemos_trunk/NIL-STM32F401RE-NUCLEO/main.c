@@ -17,12 +17,12 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Tested under ChibiOS 17.2.0, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
 
 #include "hal.h"
-#include "nil.h"
+#include "ch.h"
 
 /* Green LED blinker thread, times are in milliseconds. */
 static THD_WORKING_AREA(waThread1, 256);

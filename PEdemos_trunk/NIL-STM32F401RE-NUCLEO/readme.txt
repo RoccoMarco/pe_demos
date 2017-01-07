@@ -13,13 +13,16 @@ This demo comes as standalone, there is no article associated with it.
 *** Releases and Change Log                                               ***
 *****************************************************************************
 
-*** 1.0 ***
+*** Change log 1.0 ***
  - Project created.
 
-*** 1.1 ***
+*** Change log 1.1 ***
  - Tested under ChibiOS 16.1.4.
  - Updated comments.
  
-*** 1.2 ***
- - Updated licence
+*** Change log 1.2 ***
+ - Updated license
  - Created this file and moved change-log here.
+
+*** Change log 2.0 ***
+ - Tested under ChibiOS 17.2.1.
