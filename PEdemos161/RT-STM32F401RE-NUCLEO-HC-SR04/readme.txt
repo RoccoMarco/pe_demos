@@ -4,7 +4,7 @@
 
 *** About ***
 This demo runs on STM32 Nucleo-64 F401RE. In this demo the STM32 gets data 
-from the HC displaying it.
+from the HC-SR04 displaying it on the Virtual COM port.
 
 *** Related article ***
 For more information read the article "Detecting obstacles using an 
