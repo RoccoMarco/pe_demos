@@ -28,6 +28,7 @@
 
 #define    LINE_TRIGGER                PAL_LINE(GPIOB, 10U)
 #define    LINE_ECHO                   PAL_LINE(GPIOA, 8U)
+
 /* Enable if your terminal supports ANSI ESCAPE CODE */
 #define    ANSI_ESCAPE_CODE_ALLOWED    TRUE
 
