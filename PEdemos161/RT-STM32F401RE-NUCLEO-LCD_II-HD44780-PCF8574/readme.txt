@@ -17,3 +17,7 @@ http://www.playembedded.org/blog/en/2016/12/20/hd44780-backpack-stm32/
 
 *** Change log 1.0 ***
  - Project created.
+
+*** Change log 1.1 ***
+ - Reduced nice wait in write register.
+ - Optimized write register.
