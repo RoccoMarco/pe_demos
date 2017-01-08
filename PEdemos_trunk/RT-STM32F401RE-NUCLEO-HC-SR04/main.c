@@ -26,10 +26,10 @@
 
 #include "chprintf.h"
 
-#define    LINE_TRIGGER                PAL_LINE(GPIOB, 10U)
-#define    LINE_ECHO                   PAL_LINE(GPIOA, 8U)
+#define LINE_TRIGGER                PAL_LINE(GPIOB, 10U)
+#define LINE_ECHO                   PAL_LINE(GPIOA, 8U)
 /* Enable if your terminal supports ANSI ESCAPE CODE */
-#define    ANSI_ESCAPE_CODE_ALLOWED    TRUE
+#define ANSI_ESCAPE_CODE_ALLOWED    TRUE
 
 static BaseSequentialStream * chp = (BaseSequentialStream*) &SD2;
 
@@ -37,8 +37,9 @@ static BaseSequentialStream * chp = (BaseSequentialStream*) &SD2;
 /* ICU related code                                                          */
 /*===========================================================================*/
 
-#define    ICU_TIM_FREQ                1000000
-#define    SPEED_OF_SOUND              343.2f
+#define ICU_TIM_FREQ                1000000
+#define SPEED_OF_SOUND              343.2f
+
 static float lastdistance = 0.0;
 
 static void icuwidthcb(ICUDriver *icup) {
