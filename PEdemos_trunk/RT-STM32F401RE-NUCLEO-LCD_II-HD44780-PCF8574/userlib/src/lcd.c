@@ -116,8 +116,8 @@ LCDDriver LCDD1;
  * @notapi
  */
 static void hd44780WriteRegister(LCDDriver *lcdp, uint8_t reg, uint8_t value) {
-  uint8_t txbuf[2];
-  osalThreadSleepMilliseconds(5);
+  uint8_t txbuf[4];
+  osalThreadSleepMilliseconds(2);
 
   txbuf[0] = reg | LCD_D_HIGHER(value) | LCD_E;
   if(lcdp->backlight)
@@ -125,17 +125,15 @@ static void hd44780WriteRegister(LCDDriver *lcdp, uint8_t reg, uint8_t value) {
   txbuf[1] = reg | LCD_D_HIGHER(value);
   if(lcdp->backlight)
     txbuf[1] |= LCD_K;
-  i2cMasterTransmitTimeout(lcdp->config->i2cp, lcdp->config->slaveaddress,
-                           txbuf, 2, NULL, 0, TIME_INFINITE);
+  txbuf[2] = reg | LCD_D_LOWER(value) | LCD_E;
+  if(lcdp->backlight)
+    txbuf[2] |= LCD_K;
+  txbuf[3] = reg | LCD_D_LOWER(value);
+  if(lcdp->backlight)
+    txbuf[3] |= LCD_K;
 
-  txbuf[0] = reg | LCD_D_LOWER(value) | LCD_E;
-  if(lcdp->backlight)
-    txbuf[0] |= LCD_K;
-  txbuf[1] = reg | LCD_D_LOWER(value);
-  if(lcdp->backlight)
-    txbuf[1] |= LCD_K;
   i2cMasterTransmitTimeout(lcdp->config->i2cp, lcdp->config->slaveaddress,
-                           txbuf, 2, NULL, 0, TIME_INFINITE);
+                           txbuf, 4, NULL, 0, TIME_INFINITE);
 }
 
 /**
