@@ -21,7 +21,7 @@ http://www.playembedded.org/blog/en/2015/06/23/using-dht11-with-chibiosrt/
  - Fixed bug on Checksum as suggested by Dave Edwards.
  
 *** Change log 1.2 ***
- - Ported to 16.1.4
+ - Ported to 16.1.7
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.

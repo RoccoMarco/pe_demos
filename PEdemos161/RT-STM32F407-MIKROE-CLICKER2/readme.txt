@@ -22,7 +22,7 @@ http://www.playembedded.org/blog/en/2015/12/17/getting-started-with-mikroe-click
  - Updated device-lib link
     
 *** Change log 1.2 ***
- - Ported to 16.1.4
+ - Ported to 16.1.7
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.

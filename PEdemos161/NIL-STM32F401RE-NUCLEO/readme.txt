@@ -17,7 +17,7 @@ This demo comes as standalone, there is no article associated with it.
  - Project created.
 
 *** Change log 1.1 ***
- - Tested under ChibiOS 16.1.4.
+ - Tested under ChibiOS 16.1.7.
  - Updated comments.
  
 *** Change log 1.2 ***

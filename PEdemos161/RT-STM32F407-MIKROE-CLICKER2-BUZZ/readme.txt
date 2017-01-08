@@ -18,7 +18,7 @@ http://www.playembedded.org/blog/en/2016/02/23/getting-started-with-mikroe-buzz-
  - Project created
     
 *** Change log 1.1 ***
- - Ported to 16.1.4
+ - Ported to 16.1.7
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.

@@ -17,7 +17,7 @@ This demo comes as standalone, there is no article associated with it.
  - Project created
 
 *** Change log 1.1 ***
- - Ported to 16.1.4
+ - Ported to 16.1.7
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.

@@ -23,7 +23,7 @@ http://www.playembedded.org/blog/en/2015/08/10/7-segment-display-and-stm32-using
  - Updated device-lib link
     
 *** Change log 1.2 ***
- - Ported to 16.1.4
+ - Ported to 16.1.7
 
 *** Change log 1.3 ***
  - Created this file and moved change-log here.

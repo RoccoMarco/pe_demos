@@ -18,7 +18,7 @@ http://www.playembedded.org/blog/en/2015/08/08/ir-remote-and-stm32-using-chibios
  - Project created
 
 *** Change log 1.1 ***
- - Ported to 16.1.4
+ - Ported to 16.1.7
 
 *** Change log 1.2 ***
  - Created this file and moved change-log here.
