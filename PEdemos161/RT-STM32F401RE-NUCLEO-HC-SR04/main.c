@@ -112,10 +112,7 @@ int main(void) {
   icuEnableNotifications(&ICUD1);
 
   palSetLineMode(LINE_TRIGGER, PAL_MODE_OUTPUT_PUSHPULL);
-  /*
-   * Normal main() thread activity, in this demo it does nothing except
-   * sleeping in a loop and check the button state.
-   */
+  
   while (true) {
     /* Triggering */
     palWriteLine(LINE_TRIGGER, PAL_HIGH);
