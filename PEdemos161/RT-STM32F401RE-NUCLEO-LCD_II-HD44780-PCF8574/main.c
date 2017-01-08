@@ -28,7 +28,6 @@
 
 static uint8_t ii;
 
-#define LINE_A                      PAL_LINE(GPIOA, 8U)
 #define LINE_ARD_D14                PAL_LINE(GPIOB, 9U)
 #define LINE_ARD_D15                PAL_LINE(GPIOB, 8U)
 
