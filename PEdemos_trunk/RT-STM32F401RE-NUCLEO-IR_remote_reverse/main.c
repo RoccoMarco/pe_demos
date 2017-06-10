@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 17.2.0, Project version 2.0.
+ *  Tested under ChibiOS 17.6.x Stable, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
 
@@ -25,12 +25,44 @@
 #include "hal.h"
 #include "chprintf.h"
 
-#define DIM  64
+#define SIZE 64
+
+typedef struct queue {
+  int32_t data[SIZE];
+  unsigned head;
+  unsigned tail;
+}queue_t;
+
+static void qInit(queue_t* qp) {
+  qp->head = 0;
+  qp->tail = 0;
+}
+
+static void qEnque(queue_t* qp, int32_t value) {
+  qp->data[qp->tail] = value;
+  qp->tail = (qp->tail + 1) % SIZE;
+}
+
+static int32_t qDequeue(queue_t* qp) {
+  int32_t ret = qp->data[qp->head];
+  qp->head = (qp->head + SIZE - 1) % SIZE;
+  return ret;
+}
+
+static bool isNotFull(queue_t* qp) {
+  return (((qp->tail + 1) % SIZE) == qp->head);
+}
+
+static bool isEmpty(queue_t* qp) {
+  return (qp->head == qp->tail);
+}
+
+static queue_t widths;
 
 static BaseSequentialStream* chp = (BaseSequentialStream*) &SD2;
 static void icuwidthcb(ICUDriver *icup) {
-
-  chprintf(chp, "%d ", icuGetWidthX(icup));
+  if(isNotFull(&widths))
+  qEnque(&widths, icuGetWidthX(icup));
 }
 
 static ICUConfig icucfg = {
@@ -58,6 +90,9 @@ int main(void) {
   halInit();
   chSysInit();
 
+  /* Initializing a queue to store widths. */
+  qInit(&widths);
+
   /*
    * Initializes the ICU driver 3.
    * GPIOC6 is the ICU input.
@@ -76,7 +111,9 @@ int main(void) {
    * Normal main() thread activity, in this demo it does nothing.
    */
   while (true) {
-    chThdSleepMilliseconds(500);
+    if(!isEmpty(&widths))
+      chprintf(chp, "%d ", qDequeue(&widths));
+    chThdSleepMilliseconds(10);
   }
   return 0;
 }

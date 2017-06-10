@@ -35,4 +35,4 @@ http://www.playembedded.org/blog/en/2015/07/04/hd44780-lcdii-and-chibioshal/
  - Updated license.
 
 *** Change log 3.0 ***
- - Ported to 17.2.0.
+ - Tested under ChibiOS 17.6.x Stable.

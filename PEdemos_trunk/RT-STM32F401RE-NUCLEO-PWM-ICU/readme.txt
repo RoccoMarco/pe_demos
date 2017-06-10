@@ -24,4 +24,4 @@ This demo comes as standalone, there is no article associated with it.
  - Updated license.
  
 *** Change log 2.0 ***
- - Ported to 17.2.0.
+ - Tested under ChibiOS 17.6.x Stable.

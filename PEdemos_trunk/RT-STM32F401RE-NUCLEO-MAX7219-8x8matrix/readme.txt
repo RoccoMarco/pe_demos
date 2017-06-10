@@ -29,4 +29,4 @@ http://www.playembedded.org/blog/en/2015/08/02/stm32-chibios-and-a-8x8-led-matri
  - Updated license.
  
 *** Change log 2.0 ***
- - Ported to 17.2.0.
+ - Tested under ChibiOS 17.6.x Stable.

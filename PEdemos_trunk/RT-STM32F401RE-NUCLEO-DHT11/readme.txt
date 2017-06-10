@@ -26,3 +26,6 @@ http://www.playembedded.org/blog/en/2015/06/23/using-dht11-with-chibiosrt/
 *** Change log 1.3 ***
  - Created this file and moved change-log here.
  - Updated license.
+ 
+*** Change log 2.0 ***
+ - Tested under ChibiOS 17.6.x Stable.

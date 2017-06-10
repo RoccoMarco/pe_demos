@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 1.2.
+ *  Tested under ChibiOS 17.6.x, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
  
@@ -36,7 +36,7 @@ static uint32_t percentage[3], tmp;
 /*===========================================================================*/
 
 /*
- *  Tested under ChibiOS 16.1.4, Project version 2.0.
+ *  Tested under ChibiOS 17.6.x, Project version 2.0.
  *  Please open readme.txt for changelog.
  */
 

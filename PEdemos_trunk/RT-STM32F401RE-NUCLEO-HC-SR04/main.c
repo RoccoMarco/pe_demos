@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 17.2.0, Project version 2.0.
+ *  Tested under ChibiOS 17.6.x Stable, Project version 2.1.
  *  Please open readme.txt for changelog.
  */
 

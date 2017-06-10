@@ -30,4 +30,4 @@ http://www.playembedded.org/blog/en/2015/08/10/7-segment-display-and-stm32-using
  - Updated license.
  
 *** Change log 2.0 ***
- - Ported to 17.2.0.
+ - Tested under ChibiOS 17.6.x Stable.

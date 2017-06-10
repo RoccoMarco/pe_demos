@@ -28,5 +28,5 @@ http://www.playembedded.org/blog/en/2015/12/17/getting-started-with-mikroe-click
  - Created this file and moved change-log here.
  - Updated license.
 
- *** Change log 2.0 ***
- - Ported to 17.2.0.
+*** Change log 2.0 ***
+ - Tested under ChibiOS 17.6.x Stable.

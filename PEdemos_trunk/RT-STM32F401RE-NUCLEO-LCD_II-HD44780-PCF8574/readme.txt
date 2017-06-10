@@ -19,8 +19,11 @@ http://www.playembedded.org/blog/en/2016/12/20/hd44780-backpack-stm32/
  - Project created.
  
 *** Change log 2.0 ***
- - Ported to 17.2.0.
+ - Tested under ChibiOS 17.2.x.
 
 *** Change log 2.1 ***
  - Reduced nice wait in write register.
  - Optimized write register.
+ 
+*** Change log 3.0 ***
+ - Tested under ChibiOS 17.6.x Stable.

@@ -20,3 +20,6 @@ http://www.playembedded.org/blog/en/2016/11/26/detecting-obstacles-hc-sr04/
 
 *** Change log 2.0 ***
  - Ported to 17.2.0
+ 
+*** Change log 2.1 ***
+ - Tested under ChibiOS 17.6.x Stable.

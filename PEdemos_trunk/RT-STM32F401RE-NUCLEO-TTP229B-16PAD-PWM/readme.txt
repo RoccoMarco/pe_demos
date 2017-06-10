@@ -25,4 +25,4 @@ http://www.playembedded.org/blog/en/2015/07/21/capacitive-touchpad-and-st-nucleo
  - Updated license.
 
 *** Change log 2.0 ***
- - Ported to 17.2.0
+ - Tested under ChibiOS 17.6.x Stable.

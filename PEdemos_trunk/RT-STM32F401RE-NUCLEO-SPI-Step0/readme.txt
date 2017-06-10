@@ -25,4 +25,4 @@ http://www.playembedded.org/blog/en/2015/02/15/meeting-spi/
  - Updated license.
  
 *** Change log 2.0 ***
- - Ported to 17.2.0.
+ - Tested under ChibiOS 17.6.x Stable.
