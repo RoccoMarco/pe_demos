@@ -45,16 +45,16 @@ static void qEnque(queue_t* qp, int32_t value) {
 
 static int32_t qDequeue(queue_t* qp) {
   int32_t ret = qp->data[qp->head];
-  qp->head = (qp->head + SIZE - 1) % SIZE;
+  qp->head = (qp->head + 1) % SIZE;
   return ret;
 }
 
 static bool isNotFull(queue_t* qp) {
-  return (((qp->tail + 1) % SIZE) == qp->head);
+  return (((qp->tail + 1) % SIZE) != qp->head);
 }
 
-static bool isEmpty(queue_t* qp) {
-  return (qp->head == qp->tail);
+static bool isNotEmpty(queue_t* qp) {
+  return (qp->head != qp->tail);
 }
 
 static queue_t widths;
@@ -111,7 +111,7 @@ int main(void) {
    * Normal main() thread activity, in this demo it does nothing.
    */
   while (true) {
-    if(!isEmpty(&widths))
+    if(isNotEmpty(&widths))
       chprintf(chp, "%d ", qDequeue(&widths));
     chThdSleepMilliseconds(10);
   }
