@@ -17,7 +17,7 @@
 */
 
 /*
- *  Tested under ChibiOS 17.6.x Stable, Project version 2.0.
+ *  Tested under ChibiOS 17.6.x Stable, Project version 2.1.
  *  Please open readme.txt for changelog.
  */
 
@@ -59,6 +59,7 @@ static const LCDConfig lcdcfg = {
 /*===========================================================================*/
 
 #define ICU_TIM_FREQ                1000000
+#define M_TO_CM                     100.0f
 #define SPEED_OF_SOUND              343.2f
 
 static float lastdistance = 0.0;
@@ -66,7 +67,7 @@ static float lastdistance = 0.0;
 static void icuwidthcb(ICUDriver *icup) {
 
   icucnt_t width = icuGetWidthX(icup);
-  lastdistance = SPEED_OF_SOUND * width / 10000.0;
+  lastdistance = (SPEED_OF_SOUND * width * M_TO_CM) / (ICU_TIM_FREQ * 2);
 }
 
 static ICUConfig icucfg = {
