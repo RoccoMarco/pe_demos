@@ -43,6 +43,12 @@ ifeq ($(USE_VERBOSE_COMPILE),)
   USE_VERBOSE_COMPILE = no
 endif
 
+# If enabled, this option makes the build process faster by not compiling
+# modules not used in the current configuration.
+ifeq ($(USE_SMART_BUILD),)
+  USE_SMART_BUILD = yes
+endif
+
 #
 # Build global options
 ##############################################################################
@@ -93,7 +99,6 @@ include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # Other files (optional).
 include ./userlib/user.mk
-include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 
 # Define linker script file here
 LDSCRIPT= $(STARTUPLD)/STM32F401xE.ld
@@ -108,7 +113,6 @@ CSRC = $(STARTUPSRC) \
        $(PLATFORMSRC) \
        $(BOARDSRC) \
        $(TESTSRC) \
-       $(STREAMSSRC) \
        $(USERSRC) \
        main.c
 
@@ -136,13 +140,14 @@ TCSRC =
 #       option that results in lower performance and larger code size.
 TCPPSRC =
 
-# List ASM source files hereASMSRC =
+# List ASM source files here
+ASMSRC =
 ASMXSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 
 INCDIR = $(CHIBIOS)/os/license \
          $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
-         $(USERINC) $(STREAMSINC)
+         $(USERINC)
 
 #
 # Project, sources and paths
@@ -178,10 +183,10 @@ AOPT =
 TOPT = -mthumb -DTHUMB
 
 # Define C warning options here
-CWARN = -Wall -Wextra -Wstrict-prototypes
+CWARN = -Wall -Wextra -Wundef -Wstrict-prototypes
 
 # Define C++ warning options here
-CPPWARN = -Wall -Wextra
+CPPWARN = -Wall -Wextra -Wundef
 
 #
 # Compiler settings
