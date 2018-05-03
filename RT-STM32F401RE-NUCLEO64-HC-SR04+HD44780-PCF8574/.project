@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RT-STM32F401RE-NUCLEO-HC-SR04+HD44780-PCF8574</name>
+	<name>RT-STM32F401RE-NUCLEO64-HC-SR04+HD44780-PCF8574</name>
 	<comment></comment>
 	<projects>
 	</projects>
