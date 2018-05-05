@@ -15,11 +15,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-/*
- *  Tested under ChibiOS 17.6.x Stable, Project version 3.0.
- *  Please open readme.txt for changelog.
- */
  
 #include "hal.h"
 #include "ch.h"
