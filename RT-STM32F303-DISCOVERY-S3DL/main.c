@@ -1,5 +1,5 @@
 /*
-    PLAY Embedded demos - Copyright (C) 2014-2017 Rocco Marco Guglielmi
+    PLAY Embedded demos - Copyright (C) 2014-2018 Rocco Marco Guglielmi
 
     This file is part of PLAY Embedded demos.
 
@@ -15,11 +15,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-
-/*
- *  Tested under ChibiOS 17.6.x, Project version 2.0.
- *  Please open readme.txt for changelog.
- */
  
 #include "ch.h"
 #include "hal.h"
