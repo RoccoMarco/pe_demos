@@ -40,7 +40,13 @@ endif
 
 # Enable this if you want to see the full log while compiling.
 ifeq ($(USE_VERBOSE_COMPILE),)
-  USE_VERBOSE_COMPILE = yes
+  USE_VERBOSE_COMPILE = no
+endif
+
+# If enabled, this option makes the build process faster by not compiling
+# modules not used in the current configuration.
+ifeq ($(USE_SMART_BUILD),)
+  USE_SMART_BUILD = yes
 endif
 
 #
@@ -87,13 +93,12 @@ include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_stm32f3xx.m
 # HAL-OSAL files (optional).
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/hal/ports/STM32/STM32F3xx/platform.mk
-include $(CHIBIOS)/os/hal/boards/ST_STM32F3_DISCOVERY/board.mk
+include $(CHIBIOS)/os/hal/boards/ST_STM32F3_DISCOVERY_REVC/board.mk
 include $(CHIBIOS)/os/hal/osal/rt/osal.mk
 # RTOS files (optional).
 include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # Other files (optional).
-#include $(CHIBIOS)/test/rt/test.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include ./userlib/userlib.mk
 
@@ -138,13 +143,15 @@ TCSRC =
 #       option that results in lower performance and larger code size.
 TCPPSRC =
 
-# List ASM source files hereASMSRC =
+# List ASM source files here
+ASMSRC =
 ASMXSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 
 INCDIR = $(CHIBIOS)/os/license \
          $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
          $(STREAMSINC) $(USERINC)
+
 #
 # Project, sources and paths
 ##############################################################################

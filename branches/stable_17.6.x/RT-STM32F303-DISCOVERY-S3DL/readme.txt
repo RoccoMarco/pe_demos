@@ -1,28 +1,14 @@
 *****************************************************************************
-** PLAY Embedded demos - S3DL on STM32F3 Discovery                         **
+** PLAY Embedded demos - ChibiCube Project                                 **
 *****************************************************************************
 
 *** About ***
-This demo runs on STM32F3 Discovery. In this demo the STM32 addresses the
-ChibiCube
+This code animates ChibiCube. It has been written in 2013 on ChibiOS 2.6 and
+updated in time to support latest version of ChibiStudio. It runs on STM32F3 
+Discovery board.
 
 *** Related article ***
-For more information read the articles in the section "ChibiCube".
-http://www.playembedded.org/blog/en/category/projects/chibicube/
+This demo comes as standalone, there is no article associated with it.
 
-*****************************************************************************
-*** Releases and Change Log                                               ***
-*****************************************************************************
-
-*** Change log 1.0 ***
- - Project created.
-
-*** Change log 1.1 ***
- - Ported to 16.1.4.
-
-*** Change log 1.2 ***
- - Created this file and moved change-log here.
- - Updated license.     
-
-*** Change log 2.0 ***
- - Tested under ChibiOS 17.6.x Stable.
+*** ChibiOS related version ***
+Tested under ChibiOS 17.6.x Stable
