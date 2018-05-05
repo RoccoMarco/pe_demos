@@ -23,6 +23,8 @@
 #include "s3dl.h"
 
 char string[128];
+
+static THD_WORKING_AREA(waGames_handler, 1024);
 static THD_FUNCTION(Games_handler, arg) {
   (void) arg;
   chRegSetThreadName("Games_handler");
@@ -31,6 +33,7 @@ static THD_FUNCTION(Games_handler, arg) {
   }
 }
 
+static THD_WORKING_AREA(waDisplay_refresh, 1024);
 static THD_FUNCTION(Display_refresh, arg) {
   (void)arg;
   chRegSetThreadName("Display3D refresh");
@@ -40,15 +43,9 @@ static THD_FUNCTION(Display_refresh, arg) {
   }
 }
 
-
-static THD_WORKING_AREA(waGames_handler, 1024);
-static THD_WORKING_AREA(waDisplay_refresh, 1024);
-
-
 /*
  * Application entry point.
  */
-
 int main(void){
   /*
    * System initializations.
@@ -61,19 +58,21 @@ int main(void){
   chSysInit();
   s3dlInit();
 
-  s3dl_sentences_init(4, "PLAY Embedded", "chibios.org", "ChibiCube", "playembedded.org");
+  s3dl_sentences_init(4, "PLAY Embedded", "chibios.org", "ChibiCube",
+                         "playembedded.org");
   /*
    * Activates the thread
    */
-  chThdCreateStatic(waGames_handler, sizeof(waGames_handler), NORMALPRIO + 1, Games_handler, NULL);
-  chThdCreateStatic(waDisplay_refresh, sizeof(waDisplay_refresh), NORMALPRIO + 2, Display_refresh, NULL);
+  chThdCreateStatic(waGames_handler, sizeof(waGames_handler), NORMALPRIO + 1,
+                    Games_handler, NULL);
+  chThdCreateStatic(waDisplay_refresh, sizeof(waDisplay_refresh),
+                    NORMALPRIO + 2, Display_refresh, NULL);
 
   chRegSetThreadName("main");
   while (TRUE) {
     palTogglePad(GPIOE, GPIOE_LED9_BLUE);
     chThdSleepMilliseconds(500);
   }
-  return (msg_t)0;
 }
 
 
