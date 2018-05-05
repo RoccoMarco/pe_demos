@@ -9,7 +9,7 @@ on HD44780. The used RTOS is ChibiOS/NIL
 *** Related article ***
 For more information read the article "How to use an HD44780 based Liquid 
 Crystal Display".
-http://www.playembedded.org/blog/en/2015/07/04/hd44780-lcdii-and-chibioshal/
+http://www.playembedded.org/blog/hd44780-lcdii-and-chibioshal/
 
 *** ChibiOS related version ***
 Tested under ChibiOS 17.6.x Stable
