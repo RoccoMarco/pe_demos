@@ -30,11 +30,6 @@
 			<locationURI>CHIBIOS/os/hal/boards/ST_NUCLEO64_F401RE</locationURI>
 		</link>
 		<link>
-			<name>devices_lib(community)</name>
-			<type>2</type>
-			<locationURI>CHIBIOS/community/os/various/devices_lib/others</locationURI>
-		</link>
-		<link>
 			<name>os</name>
 			<type>2</type>
 			<locationURI>CHIBIOS/os</locationURI>

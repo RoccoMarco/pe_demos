@@ -143,13 +143,14 @@ TCSRC =
 #       option that results in lower performance and larger code size.
 TCPPSRC =
 
-# List ASM source files hereASMSRC =
+# List ASM source files here
+ASMSRC =
 ASMXSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 
 INCDIR = $(CHIBIOS)/os/license \
          $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
-         $(STREAMSINC) $(SHELLINC) $(CHIBIOS)/os/various
+         $(STREAMSINC) $(SHELLINC)
 
 #
 # Project, sources and paths
