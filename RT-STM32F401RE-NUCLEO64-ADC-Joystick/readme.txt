@@ -4,7 +4,7 @@
 
 *** About ***
 This demo runs on STM32 Nucleo-64 F401RE. The aim of this demo is to explain
-how ADC and PWM works in ChibiOS.
+how to use a two axis Joypad with ChibiOS.
 
 *** Related article ***
 For more information read the article "Reading a Joystick on STM32 using

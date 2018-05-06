@@ -27,6 +27,7 @@
 #define ANSI_ESCAPE_CODE_ALLOWED                  TRUE
 
 static BaseSequentialStream * chp = (BaseSequentialStream*) &SD2;
+
 /*===========================================================================*/
 /* DHT11 related defines                                                     */
 /*===========================================================================*/
@@ -38,6 +39,7 @@ static BaseSequentialStream * chp = (BaseSequentialStream*) &SD2;
 #define    DHT_START_BIT_WIDTH                      80
 #define    DHT_LOW_BIT_WIDTH                        28
 #define    DHT_HIGH_BIT_WIDTH                       70
+
 /*===========================================================================*/
 /* ICU related code                                                          */
 /*===========================================================================*/
@@ -67,15 +69,15 @@ static void icuwidthcb(ICUDriver *icup) {
     }
 
     /* When bit_counter is 7, tmp contains the bit from 0 to 7 corresponding to
-       The Humidity Rate integer part (Decimal part is 0 on DHT 11) */
+       the Humidity Rate integer part (Decimal part is 0 on DHT 11) */
     if(bit_counter == 7)
       HR = tmp;
-    /* When bit_counter is 23, tmp contains the bit from 16 to 23 corresponding to
-       The Temperature integer part (Decimal part is 0 on DHT 11) */
+    /* When bit_counter is 23, tmp contains the bit from 16 to 23 corresponding
+       to the Temperature integer part (Decimal part is 0 on DHT 11) */
     if(bit_counter == 23)
       TEMP = tmp;
-    /* When bit_counter is 39, tmp contains the bit from 32 to 39 corresponding to
-       The Check sum value */
+    /* When bit_counter is 39, tmp contains the bit from 32 to 39 corresponding
+       to the Check sum value */
     if(bit_counter == 39)
       CHECK_SUM = tmp;
     bit_counter++;
