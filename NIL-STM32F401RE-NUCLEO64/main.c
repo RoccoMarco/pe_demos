@@ -51,8 +51,8 @@ THD_FUNCTION(Thread2, arg) {
  * match CH_CFG_MAX_THREADS.
  */
 THD_TABLE_BEGIN
-  THD_TABLE_THREAD(0, "LED blinker", waThread1, Thread1, NULL)
-  THD_TABLE_THREAD(1, "Hello world", waThread2, Thread2, NULL)
+  THD_TABLE_ENTRY(waThread1, "LED blinker", Thread1, NULL)
+  THD_TABLE_ENTRY(waThread2, "Hello world", Thread2, NULL)
 THD_TABLE_END
 
 /*

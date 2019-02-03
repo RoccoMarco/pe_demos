@@ -194,9 +194,9 @@ static THD_FUNCTION(Thread3, arg) {
  * match NIL_CFG_NUM_THREADS.
  */
 THD_TABLE_BEGIN
-  THD_TABLE_THREAD(0, "LED blinker", waThread1, Thread1, NULL)
-  THD_TABLE_THREAD(2, "Backlight handler", waThread2, Thread2, NULL)
-  THD_TABLE_THREAD(1, "LCD handler", waThread3, Thread3, NULL)
+  THD_TABLE_ENTRY(waThread1, "LED blinker", Thread1, NULL)
+  THD_TABLE_ENTRY(waThread2, "Backlight handler", Thread2, NULL)
+  THD_TABLE_ENTRY(waThread3, "LCD handler", Thread3, NULL)
 THD_TABLE_END
 
 /*

@@ -29,7 +29,7 @@
 #define CHCONF_H
 
 #define _CHIBIOS_NIL_CONF_
-#define _CHIBIOS_NIL_CONF_VER_4_0_
+#define _CHIBIOS_NIL_CONF_VER_3_2_
 
 /*===========================================================================*/
 /**
@@ -39,20 +39,11 @@
 /*===========================================================================*/
 
 /**
- * @brief   Maximum number of user threads in the application.
+ * @brief   Number of user threads in the application.
  * @note    This number is not inclusive of the idle thread which is
- *          implicitly handled.
- * @note    Set this value to be exactly equal to the number of threads you
- *          will use or you would be wasting RAM and cycles.
- * @note    This values also defines the number of available priorities
- *          (0..CH_CFG_MAX_THREADS-1).
+ *          Implicitly handled.
  */
-#define CH_CFG_MAX_THREADS                  3
-
-/**
- * @brief   Auto starts threads when @p chSysInit() is invoked.
- */
-#define CH_CFG_AUTOSTART_THREADS            TRUE
+#define CH_CFG_NUM_THREADS                  3
 
 /** @} */
 
@@ -75,7 +66,7 @@
  *          option defines the maximum amount of time allowed for
  *          timeouts.
  */
-#define CH_CFG_ST_FREQUENCY                 10000
+#define CH_CFG_ST_FREQUENCY                 2000
 
 /**
  * @brief   Time delta constant for the tick-less mode.
@@ -95,15 +86,6 @@
  * @{
  */
 /*===========================================================================*/
-
-/**
- * @brief   Threads synchronization APIs.
- * @details If enabled then the @p chThdWait() function is included in
- *          the kernel.
- *
- * @note    The default is @p TRUE.
- */
-#define CH_CFG_USE_WAITEXIT                 TRUE
 
 /**
  * @brief   Semaphores APIs.
@@ -310,8 +292,10 @@
 /**
  * @brief   System initialization hook.
  */
+#if !defined(CH_CFG_SYSTEM_INIT_HOOK) || defined(__DOXYGEN__)
 #define CH_CFG_SYSTEM_INIT_HOOK() {                                         \
 }
+#endif
 
 /**
  * @brief   Threads descriptor structure extension.
@@ -326,12 +310,6 @@
 #define CH_CFG_THREAD_EXT_INIT_HOOK(tr) {                                   \
   /* Add custom threads initialization code here.*/                         \
 }
-
-/**
- * @brief   Threads finalization hook.
- * @details User finalization code added to the @p chThdExit() API.
- */
-#define CH_CFG_THREAD_EXIT_HOOK(tp) {}
 
 /**
  * @brief   Idle thread enter hook.
@@ -354,8 +332,10 @@
 /**
  * @brief   System halt hook.
  */
+#if !defined(CH_CFG_SYSTEM_HALT_HOOK) || defined(__DOXYGEN__)
 #define CH_CFG_SYSTEM_HALT_HOOK(reason) {                                   \
 }
+#endif
 
 /** @} */
 
