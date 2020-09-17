@@ -1,0 +1,8 @@
+******************************************************************************
+*** PLAY Embedded demos for ChibiOS 20.3.x Release Notes.                  ***
+******************************************************************************
+
+*** What's new ***
+
+- Removed Clicker 2 demos.
+- Updated makefile and configuration file to be compliant with ChibiOS 20.3.x.

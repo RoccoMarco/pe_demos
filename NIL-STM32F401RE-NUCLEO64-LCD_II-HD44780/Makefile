@@ -89,7 +89,7 @@ PROJECT = ch
 MCU  = cortex-m3
 
 # Imported source files and paths.
-CHIBIOS  := ../../chibios_trunk
+CHIBIOS  := ../../chibios203
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep
