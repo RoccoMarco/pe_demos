@@ -4,5 +4,5 @@
 
 *** What's new ***
 
-- Removed Clicker 2 demos.
 - Updated makefile and configuration file to be compliant with ChibiOS 20.3.x.
+- Removed debug configuration from the demos
