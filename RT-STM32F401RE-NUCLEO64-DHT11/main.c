@@ -34,11 +34,14 @@ static BaseSequentialStream * chp = (BaseSequentialStream*) &SD2;
 /*
  * Width are in useconds
  */
-#define    MCU_REQUEST_WIDTH                     18000
-#define    DHT_ERROR_WIDTH                         200
-#define    DHT_START_BIT_WIDTH                      80
-#define    DHT_LOW_BIT_WIDTH                        28
-#define    DHT_HIGH_BIT_WIDTH                       70
+#define    MCU_REQUEST_WIDTH                   18000
+#define    DHT_ERROR_WIDTH                     200
+#define    DHT_START_BIT_WIDTH                 80
+#define    DHT_LOW_BIT_WIDTH                   28
+#define    DHT_HIGH_BIT_WIDTH                  70
+
+#define    DHT_NUM_OF_WORDS                    5
+#define    DHT_WORD_SIZE                       8
 
 /*===========================================================================*/
 /* ICU related code                                                          */
@@ -46,8 +49,10 @@ static BaseSequentialStream * chp = (BaseSequentialStream*) &SD2;
 
 #define    ICU_TIM_FREQ                        1000000
 
-static uint8_t TEMP, HR, CHECK_SUM, tmp, bit_counter = 0;;
-static icucnt_t widths [40];
+static icucnt_t widths[DHT_NUM_OF_WORDS * DHT_WORD_SIZE];
+static uint8_t words[DHT_NUM_OF_WORDS];
+
+static uint8_t bit_counter, i, local;
 
 static void icuwidthcb(ICUDriver *icup) {
 
@@ -62,24 +67,11 @@ static void icuwidthcb(ICUDriver *icup) {
     widths[bit_counter] = width;
 
     if(width > DHT_LOW_BIT_WIDTH){
-      tmp |= (1 << (7 - (bit_counter % 8)));
+      words[bit_counter / DHT_WORD_SIZE] |= (1 << (7 - (bit_counter % DHT_WORD_SIZE)));
     }
     else{
-      tmp &= ~(1 << (7 - (bit_counter % 8)));
+      words[bit_counter / DHT_WORD_SIZE] &= ~(1 << (7 - (bit_counter % DHT_WORD_SIZE)));
     }
-
-    /* When bit_counter is 7, tmp contains the bit from 0 to 7 corresponding to
-       the Humidity Rate integer part (Decimal part is 0 on DHT 11) */
-    if(bit_counter == 7)
-      HR = tmp;
-    /* When bit_counter is 23, tmp contains the bit from 16 to 23 corresponding
-       to the Temperature integer part (Decimal part is 0 on DHT 11) */
-    if(bit_counter == 23)
-      TEMP = tmp;
-    /* When bit_counter is 39, tmp contains the bit from 32 to 39 corresponding
-       to the Check sum value */
-    if(bit_counter == 39)
-      CHECK_SUM = tmp;
     bit_counter++;
   }
 }
@@ -171,8 +163,14 @@ int main(void) {
     icuStopCapture(&ICUD1);
     icuStop(&ICUD1);
 
-    chprintf(chp, "Temperature: %d C, Humidity Rate: %d %% \n\r", TEMP, HR);
-    if(CHECK_SUM == (TEMP + HR)){
+    chprintf(chp, "Temperature: %d.%d C, Humidity Rate: %d.%d %% \n\r", words[2], words[3], words[0], words[1]);
+
+    local = 0;
+    for(i = 0; i < DHT_NUM_OF_WORDS - 1; i++) {
+      local += words[i];
+    }
+
+    if(local == words[4]){
       chprintf(chp, "Checksum OK!\n\r");
     }
     else{
