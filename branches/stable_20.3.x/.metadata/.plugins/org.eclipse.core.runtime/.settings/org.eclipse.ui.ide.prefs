@@ -1,9 +1,0 @@
-IMPORT_FILES_AND_FOLDERS_MODE=prompt
-IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE=prompt
-SHOW_LOCATION=true
-SHOW_PRODUCT_IN_TITLE=false
-WORKSPACE_NAME=ChibiStudio 2021-07 RC \u2013 PLAY Embedded demos for ChibiOS 20.3.x
-eclipse.preferences.version=1
-platformState=1625925453775
-quickStart=false
-tipsAndTricks=true
